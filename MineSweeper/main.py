@@ -55,7 +55,7 @@ def runGame(screen, size):
     If there was a winner, will draw the game before returning
     
     """
-    NUM_MINES = 1
+    NUM_MINES = 20
 
     # create the minesweeper board
     board = createBoard(10, 10, NUM_MINES)
