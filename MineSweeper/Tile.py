@@ -18,7 +18,7 @@ class Tile:
 
     # images for tiles
     hiddenImage = pygame.image.load("hidden.png")
-    shownImage = pygame.image.load("tile.png")
+    shownImage = pygame.image.load("shown.png")
     mineImage = pygame.image.load("mine.png")
 
     # The font for numbers in tiles
