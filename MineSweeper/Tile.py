@@ -1,3 +1,6 @@
+import pygame
+from pygame.locals import *
+
 class Tile:
     """
     A tile in minesweeper, which has either
@@ -16,15 +19,18 @@ class Tile:
     WIDTH = 10
     HEIGHT = 10
 
+    pygame.init()
+
     # images for tiles
     hiddenImage = pygame.image.load("hidden.png")
     shownImage = pygame.image.load("shown.png")
     mineImage = pygame.image.load("mine.png")
+    flagImage = pygame.image.load("flag.png")
 
     # The font for numbers in tiles
     font = pygame.font.SysFont("monospace", HEIGHT)
 
-    def __init__(number):
+    def __init__(self, number):
         """
         Creates a tile with the specified number
         if this tile is a mine, the number should
@@ -33,23 +39,26 @@ class Tile:
         """
         self.number = number
         self.hidden = True
+        self.text = Tile.font.render(str(self.number), 1, (255, 255, 0))
+        self.flag = False
 
-    def draw(screen, x, y):
+    def draw(self, screen, x, y):
         """
         draws the tile, if it's hidden it
         will not draw this contents within
         """
-        if self.hidden == True:
-            screen.blit(hiddenImage, (x, y))
+        if self.hidden:
+            screen.blit(Tile.hiddenImage, (x, y))
+            if self.flag:
+                screen.blit(Tile.flagImage, (x, y))
         else:
-            screen.blit(shownImage, (x, y))
+            screen.blit(Tile.shownImage, (x, y))
             if self.isMine():
-                screen.blit(mine, (x, y))
+                screen.blit(Tile.mineImage, (x, y))
             else:
-                text = font.render(self.number, 1, (255, 255, 0))
-                screen.blit(text, (x, y))
+                screen.blit(self.text, (x, y))
 
-    def isMine():
+    def isMine(self):
         """
         returns true if this tile is a mine
         returns false if this tile is not a mine
@@ -59,17 +68,28 @@ class Tile:
 
         return False
 
-    def show():
+    def show(self):
         """
-        makes the tile uncovered
+        makes the tile uncovered, if there is no flag on it
         """
-        self.hidden = False
+        if not self.flag:
+            self.hidden = False
 
-    def increaseNumber():
+    def toggleFlag(self):
+        """
+        Toggles the flag on the tile
+        """
+        self.flag = not self.flag
+
+    def isFlagged(self):
+        return self.flag
+        
+    def increaseNumber(self):
         """
         Increases the number
         Intended to be used if a mine
         is placed beside the tile
         """
-        if not isMine():
+        if not self.isMine():
             self.number += 1
+            self.text = Tile.font.render(str(self.number), 1, (0, 0, 0))
