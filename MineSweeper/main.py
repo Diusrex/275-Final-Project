@@ -1,11 +1,6 @@
 import pygame
 from pygame.locals import *
 
-import BoxContainer
-import Player
-import Calculations
-import PositionInfo
-
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
     # So x = pos % 3, y = pos // 3
 
