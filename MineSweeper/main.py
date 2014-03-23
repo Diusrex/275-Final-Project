@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import Tile from Tile.py
 
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
     # So x = pos % 3, y = pos // 3
@@ -9,14 +10,11 @@ def main(screen, size):
     wantsToExit = False
     
     while not wantsToExit:
-        playerOutput = run_game(screen, size)
+        playerOutput = runGame(screen, size)
         
         # They wanted to exit while in game
         if playerOutput == None:
             return
-            
-        
-        myfont = pygame.font.SysFont("monospace", 15)
         
         label = myfont.render("Congratulations " + playerOutput + ", you won the game!", 50, (255,255,0))
         
@@ -47,40 +45,14 @@ def main(screen, size):
 
                     
                     
-def run_game(screen, size):    
+def runGame(screen, size):    
     """
     If there was a winner, will draw the game before returning
     
     """
-    
-    players = [Player.Player("Player 1", 1, pygame.image.load('xPressed.png')),
-               Player.Player("Player 2", 2, pygame.image.load('oPressed.png'))]
-    
-    
-    imageSize = BoxContainer.BoxContainer.notPressedImage.get_rect()
-    
-    spacer = 20
-    miniSpacer = 15
-    
-    # Want to make it so the box will be centred
-    xStart = (size[0] - (imageSize.width * 9 + spacer * 2 + miniSpacer * 6)) / 2
-    yStart = (size[1] - (imageSize.height * 9 + spacer * 2 + miniSpacer * 6)) / 2
-    
-    
-    allBoxContainers, allBoxOwners, positionInfo = CreateBoxes(15, spacer, miniSpacer, xStart, yStart)
-    
-    
-    # Will be the size of one box
-    currentIdentifier = pygame.Surface((positionInfo.startPosX[1] - positionInfo.startPosX[0] - spacer, positionInfo.startPosY[1] - positionInfo.startPosY[0] - spacer))
-    
-    currentIdentifier.set_alpha(128)
-    currentIdentifier.fill((0, 0, 0))
-    
-    currentPlayer = 0
-    
-    currentBox = 4
-    
-    
+    # create the minesweeper board
+    board = createBoard(10, 10)
+
     redraw = True
     
     while True:
@@ -104,6 +76,43 @@ def run_game(screen, size):
             pygame.display.flip()
             redraw = False
      
+def createBoard(width, height, numMines):
+    """
+    Creates a board with a set width and height of tiles
+    as well as a specific number of mines
+    """
+    # creates a 2D list for the board
+    board = [[Tile(0) for y in range(height)] for x in range(width)]
+
+    # creates a list to store coordinates that are not mines
+    noMines = []
+    for x in board:
+        for y in board[x]:
+            noMines.append((x, y))
+
+    # makes sure numMines is not too big
+    if numMines > width * height:
+        numMines = width * height
+
+    # randomly chooses coordinates to make mines, that are not mines
+    # already
+    # tiles beside the mines have their number incremented by 1
+    while numMines > 0:
+        mine = random.choice(noMines)
+
+        noMines.remove(mine)
+        board[mine[0]][mine[1]] = Tile(-1)
+        numMines -= 1
+        # look at the adjacent tiles, and increment them
+        for x in (-1, 1):
+            for y in (-1, 1):
+                try:
+                    board[mine[0]+x][mine[1]+y].increaseNumber()
+                except IndexError: # if the index is out of bounds, ignore it
+                    pass
+
+    return board
+
 if __name__ == "__main__":
     pygame.init()
     size = (1024, 768)

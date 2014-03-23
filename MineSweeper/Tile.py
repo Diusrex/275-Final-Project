@@ -64,3 +64,12 @@ class Tile:
         makes the tile uncovered
         """
         self.hidden = False
+
+    def increaseNumber():
+        """
+        Increases the number
+        Intended to be used if a mine
+        is placed beside the tile
+        """
+        if not isMine():
+            self.number += 1
