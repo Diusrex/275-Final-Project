@@ -72,7 +72,7 @@ def runGame(screen, size):
                 # left button reveals the tile
                 if event.button == 1:
                     redraw = True
-                    reveal(board, tilePos[0], tilePos[1])
+                    gameOver = reveal(board, tilePos[0], tilePos[1])
                     
 
                 # right button flags the tile
@@ -131,7 +131,8 @@ def createBoard(width, height, numMines):
         for x in (-1, 0, 1):
             for y in (-1, 0, 1):
                 try:
-                    board[mine[0]+x][mine[1]+y].increaseNumber()
+                    if mine[0]+x >= 0 and mine[1]+y >= 0:
+                        board[mine[0]+x][mine[1]+y].increaseNumber()
                 except IndexError: # if the index is out of bounds, ignore it
                     pass
 
@@ -154,6 +155,9 @@ def reveal(board, x, y):
     Returns whether the tile was a mine (T or F)
     """
     try:
+        if x < 0 or y < 0:
+            return False
+
         tile = board[x][y]
         if not tile.hidden:
             return False
