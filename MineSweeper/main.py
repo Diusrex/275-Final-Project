@@ -10,19 +10,23 @@ import random
 def main(screen, size):
     wantsToExit = False
     
+    font = pygame.font.SysFont("monospace", 15)
+    
     while not wantsToExit:
-        playerOutput = runGame(screen, size)
+        gameResult = runGame(screen, size)
         
         # They wanted to exit while in game
-        if playerOutput == None:
+        if gameResult == None:
             return
-        
-        label = myfont.render("Congratulations " + playerOutput + ", you won the game!", 50, (255,255,0))
+        if gameResult == 1:
+            label = font.render("Congratulations, you won the game!", 50, (255,255,0))
+        elif gameResult == 0:
+            label = font.render("You bit the bullet", 50, (255, 255, 0))
         
         screen.blit(label, (300, 0))
         
-        label = myfont.render("To play another game press enter. To exit press escape", 50, (255,255,0))
-        screen.blit(label, (300, myfont.size("hi")[1] + 5))
+        label = font.render("To play another game press enter. To exit press escape", 50, (255,255,0))
+        screen.blit(label, (300, font.size("hi")[1] + 5))
         
         pygame.display.flip()
         
@@ -51,11 +55,13 @@ def runGame(screen, size):
     If there was a winner, will draw the game before returning
     
     """
+    NUM_MINES = 1
+
     # create the minesweeper board
-    board = createBoard(10, 10, 20)
+    board = createBoard(10, 10, NUM_MINES)
 
     redraw = True
-    gameOver = False
+    gameResult = None
     
     while True:
         ev = pygame.event.get()
@@ -72,8 +78,12 @@ def runGame(screen, size):
                 # left button reveals the tile
                 if event.button == 1:
                     redraw = True
-                    gameOver = reveal(board, tilePos[0], tilePos[1])
+                    clickedMine = reveal(board, tilePos[0], tilePos[1])
                     
+                    if clickedMine:
+                        gameResult = 0
+                    elif cleared(board):
+                        gameResult = 1
 
                 # right button flags the tile
                 if event.button == 3:
@@ -96,8 +106,9 @@ def runGame(screen, size):
             pygame.display.flip()
             redraw = False
 
-        if gameOver:
-            return
+        # gameResult should be 1 for victory, 0 for defeat
+        if gameResult is not None:
+            return gameResult
      
 def createBoard(width, height, numMines):
     """
@@ -164,13 +175,13 @@ def reveal(board, x, y):
 
         if not tile.isFlagged():
             tile.show()
-        if tile.isMine():
-            return True
+            if tile.isMine():
+                return True
 
         # reveals adjacent tiles
         # this should never return true, so there
         # is no need to check
-        elif tile.number == 0:
+        if tile.number == 0:
             for xi in (-1, 0, 1):
                 for yi in (-1, 0, 1):
                     if (xi, yi) != (0, 0):
@@ -179,6 +190,18 @@ def reveal(board, x, y):
         pass
 
     return False
+
+def cleared(board):
+    """
+    Returns true if all but the mine tiles have been
+    revealed
+    """
+    for column in board:
+        for tile in column:
+            if not tile.isMine() and tile.hidden == True:
+                return False
+
+    return True
 
 if __name__ == "__main__":
     pygame.init()
