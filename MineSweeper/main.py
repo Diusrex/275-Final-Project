@@ -19,14 +19,14 @@ def main(screen, size):
         if gameResult == None:
             return
         if gameResult == 1:
-            label = font.render("Congratulations, you won the game!", 50, (255,255,0))
+            label = font.render("Congratulations, you won the game!", 50, (0, 0, 0))
         elif gameResult == 0:
-            label = font.render("You bit the bullet", 50, (255, 255, 0))
+            label = font.render("You bit the bullet", 50, (0, 0, 0))
         
-        screen.blit(label, (300, 0))
+        screen.blit(label, (0, 0))
         
-        label = font.render("To play another game press enter. To exit press escape", 50, (255,255,0))
-        screen.blit(label, (300, font.size("hi")[1] + 5))
+        label = font.render("To play another game press enter. To exit press escape", 50, (0,0,0))
+        screen.blit(label, (0, font.size("hi")[1] + 5))
         
         pygame.display.flip()
         
@@ -55,10 +55,16 @@ def runGame(screen, size):
     If there was a winner, will draw the game before returning
     
     """
-    NUM_MINES = 20
+    # sets up the screen width and height in tiles
+    WIDTH = 30
+    HEIGHT = 30
+
+    pygame.display.set_mode((WIDTH * Tile.WIDTH, HEIGHT * Tile.HEIGHT))
+
+    NUM_MINES = 100
 
     # create the minesweeper board
-    board = createBoard(10, 10, NUM_MINES)
+    board = createBoard(WIDTH, HEIGHT, NUM_MINES)
 
     redraw = True
     gameResult = None
@@ -170,21 +176,36 @@ def reveal(board, x, y):
             return False
 
         tile = board[x][y]
+        revealAdjacent = False
+
+        # if this tile is hidden, and enough adjacent tiles are flagged
+        # reveal all non flagged adjacent tiles
         if not tile.hidden:
-            return False
+            numMines = tile.number
+            for xi in (-1, 0, 1):
+                for yi in (-1, 0, 1):
+                    if x + xi < 0 or y + yi < 0:
+                        continue
+                    if (xi, yi) != (0, 0) and board[x+xi][y+yi].isFlagged():
+                        numMines -= 1
+            if numMines == 0:
+                revealAdjacent = True
 
         if not tile.isFlagged():
             tile.show()
             if tile.isMine():
                 return True
+        
+        if tile.number == 0:
+            revealAdjacent = True
 
         # reveals adjacent tiles
         # this should never return true, so there
         # is no need to check
-        if tile.number == 0:
+        if revealAdjacent:
             for xi in (-1, 0, 1):
                 for yi in (-1, 0, 1):
-                    if (xi, yi) != (0, 0):
+                    if (xi, yi) != (0, 0) and board[x+xi][y+yi].hidden:
                         reveal(board, x + xi, y + yi)
     except IndexError:
         pass
