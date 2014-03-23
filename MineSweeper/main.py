@@ -10,7 +10,7 @@ import random
 def main(screen, size):
     wantsToExit = False
     
-    font = pygame.font.SysFont("monospace", 15)
+    font = pygame.font.SysFont("monospace", 12, bold = True)
     
     while not wantsToExit:
         gameResult = runGame(screen, size)
@@ -25,8 +25,10 @@ def main(screen, size):
         
         screen.blit(label, (0, 0))
         
-        label = font.render("To play another game press enter. To exit press escape", 50, (0,0,0))
+        label = font.render("To play another game press enter.", 50, (0,0,0))
         screen.blit(label, (0, font.size("hi")[1] + 5))
+        label = font.render("To exit press escape.", 50, (0,0,0))
+        screen.blit(label, (0, font.size("hi")[1] * 2 + 5))
         
         pygame.display.flip()
         
@@ -184,7 +186,7 @@ def reveal(board, x, y):
             numMines = tile.number
             for xi in (-1, 0, 1):
                 for yi in (-1, 0, 1):
-                    if x + xi < 0 or y + yi < 0:
+                    if x + xi < 0 or y + yi < 0 or x + xi >= len(board) or y + yi >= len(board):
                         continue
                     if (xi, yi) != (0, 0) and board[x+xi][y+yi].isFlagged():
                         numMines -= 1
