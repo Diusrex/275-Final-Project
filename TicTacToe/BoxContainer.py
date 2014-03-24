@@ -1,5 +1,5 @@
 import pygame
-import box
+import Calculations
 
 class BoxContainer(pygame.sprite.Sprite):
     """
@@ -30,6 +30,10 @@ class BoxContainer(pygame.sprite.Sprite):
         self.allSprites = []
         self.allPositions = []
         self.ownedBy = []
+        
+        # This is for the line to be drawn if there is a winner 
+        self.victoryLineStart = None
+        self.victoryLineEnd = None
         
         rect = BoxContainer.notPressedImage.get_rect()
         
@@ -65,40 +69,17 @@ class BoxContainer(pygame.sprite.Sprite):
                 # Check to see if the status could have been changed
                 if self.status == 0:
                     
-                    diagonalSame = False
+                    info = Calculations.CheckIfWin(self.ownedBy)
                     
-                    x = pos % 3
-                    y = pos // 3
-                    
-                    # need to check diagonal
-                    if pos == 0 or pos == 4 or pos == 8:
-                        # Not the most efficient checks, but it works
-                        if (self.ownedBy[0] == self.ownedBy[4]) and (self.ownedBy[4] == self.ownedBy[8]):
-                            diagonalSame = True
-                    
-                    if pos == 2 or pos == 4 or pos == 6:
-                        if (self.ownedBy[2] == self.ownedBy[4]) and (self.ownedBy[4] == self.ownedBy[6]):
-                            diagonalSame = True
-                    
-                    horizontalSame = True
-                    verticalSame = True
-                    
-                    # These make it easy to calculate other boxes to check against
-                    
-                    
-                    # Need to check against two others
-                    for change in range(1, 3):
+                    if (info[0] != 0):
+                        self.status = info[0]
                         
-                        # Horizontal check. x + change is modded by 3 to ensure it does not go out of range  
-                        if (self.ownedBy[pos] != self.ownedBy[y * 3 + (x + change) % 3]):
-                            verticalSame = False
+                        startBox = info[1][0]
+                        endBox = info[1][1]
                         
-                        if (self.ownedBy[pos] != self.ownedBy[((y + change) % 3) * 3 + x]):
-                            horizontalSame = False
-                    
-                    if horizontalSame or verticalSame or diagonalSame:
-                        self.status = self.ownedBy[pos]
-                 
+                        self.victoryLineStart = self.allPositions[startBox].center
+                        self.victoryLineEnd = self.allPositions[endBox].center
+                        
                 # The player changed a box
                 return (self.status, pos)
       
@@ -109,3 +90,6 @@ class BoxContainer(pygame.sprite.Sprite):
     def Draw(self, screen):
         for pos in range(9):
             screen.blit(self.allSprites[pos], self.allPositions[pos])
+            
+        if (self.victoryLineStart != None):
+            pygame.draw.line(screen, (0, 255, 0), self.victoryLineStart, self.victoryLineEnd, 5)
