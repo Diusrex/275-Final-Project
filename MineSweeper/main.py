@@ -1,6 +1,13 @@
+"""
 import pygame
 from pygame.locals import *
-from Tile import Tile
+from tile import Tile
+import random
+"""
+
+import pygame
+from pygame.locals import *
+from MineSweeper.tile import Tile
 import random
 
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x

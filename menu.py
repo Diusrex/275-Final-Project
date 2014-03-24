@@ -8,12 +8,13 @@ name = "Mini Games"
 pongText = "Play Pong"
 ticTacToeText = "Play Novem Tic Tac Toe"
 tetrisText = "Play Tetris"
+mineSweeperText = "Play MineSweeper"
 exitText = "Exit"
 
 
 def RunMenu(screen, screenSize):
     """
-    Will return one of pongText, ticTacToeText, tetrisText, or exitText
+    Will return one of pongText, ticTacToeText, tetrisText, mineSweeperText or exitText
     """
     screen.fill((0, 0, 0))
     
@@ -37,6 +38,10 @@ def RunMenu(screen, screenSize):
     
     posY = CreateButtonAndAdd(buttonGroup, (ticTacToeRect.center[0], posY), myfont, ticTacToeText)
     CreateButtonAndAdd(buttonGroup, (screenSize[0] // 2, posY + 20), myfont, exitText)
+
+    # This is to be centered above the ticTacToe rect
+    posY = ticTacToeRect.top - 30
+    posY = CreateButtonAndAdd(buttonGroup, (ticTacToeRect.center[0], posY), myfont, mineSweeperText)
     
     
     # This is to be centered within either side of the ticTacToe rect
