@@ -209,13 +209,15 @@ def reveal(board, x, y):
             revealAdjacent = True
 
         # reveals adjacent tiles
-        # this should never return true, so there
-        # is no need to check
+        # returns True if any mines are found
         if revealAdjacent:
+            mines = False
             for xi in (-1, 0, 1):
                 for yi in (-1, 0, 1):
                     if (xi, yi) != (0, 0) and board[x+xi][y+yi].hidden:
-                        reveal(board, x + xi, y + yi)
+                        mines = mines or reveal(board, x + xi, y + yi)
+            return mines
+
     except IndexError:
         pass
 
