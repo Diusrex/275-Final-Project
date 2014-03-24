@@ -7,7 +7,7 @@ import random
     # So x = pos % 3, y = pos // 3
 
     
-def main(screen, size):
+def Main(screen, size):
     wantsToExit = False
     
     font = pygame.font.SysFont("monospace", 12, bold = True)
