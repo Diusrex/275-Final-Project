@@ -12,6 +12,8 @@ def main(screen, screenSize):
     tryingToExit = False
     
     while not tryingToExit:
+        # resets the screensize between games
+        pygame.display.set_mode(screenSize)
         decision = menu.RunMenu(screen, screenSize)
         
         if decision == menu.pongText:
