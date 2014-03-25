@@ -9,29 +9,26 @@ import PositionInfo
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
     # So x = pos % 3, y = pos // 3
 
-# Note: Images must be squares
-
+    
 def main(screen, size):
     wantsToExit = False
     
     while not wantsToExit:
         playerOutput = run_game(screen, size)
         
+        # They wanted to exit while in game
         if playerOutput == None:
-            # They wanted to exit while in game
             return
-        print("Completed")
-        
-        screen.fill((0, 0, 0))
+            
         
         myfont = pygame.font.SysFont("monospace", 15)
         
         label = myfont.render("Congratulations " + playerOutput + ", you won the game!", 50, (255,255,0))
         
-        screen.blit(label, (0, 200))
+        screen.blit(label, (300, 0))
         
         label = myfont.render("To play another game press enter. To exit press escape", 50, (255,255,0))
-        screen.blit(label, (0, 500))
+        screen.blit(label, (300, myfont.size("hi")[1] + 5))
         
         pygame.display.flip()
         
@@ -56,6 +53,11 @@ def main(screen, size):
                     
                     
 def run_game(screen, size):    
+    """
+    If there was a winner, will draw the game before returning
+    
+    """
+    
     players = [Player.Player("Player 1", 1, pygame.image.load('xPressed.png')),
                Player.Player("Player 2", 2, pygame.image.load('oPressed.png'))]
     
@@ -95,21 +97,42 @@ def run_game(screen, size):
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 
+                
                 # if it was a valid press, x will be a tuple containing (boxStatus, boxPressedIn)
                 x = allBoxContainers[currentBox].HandleClicked(pos, players[currentPlayer])
                 
-                if (x != None):
-                    allBoxOwners[currentBox] = x[0]
+                # It is possible that it is impossible to place in current box, in which case any box is valid
+                if (not allBoxContainers[currentBox].CanBeClickedIn()):
+                    for box in allBoxContainers:
+                        temp = box.HandleClicked(pos, players[currentPlayer])
+                        if temp != None:
+                            x = temp
+                
                     
+                    
+                if x != None:   
+                    allBoxOwners[currentBox] = x[0]
                     winner = Calculations.CheckIfWin(allBoxOwners)
                     
-                    # EDIT: How should it draw, but still display the text properly?
+                    # This is to display special information about who won, this function will be exited from
                     if (winner[0] != 0):
-                        # winner is just the player id that won
+                        DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer)
+                        
+                        # Draw the winning line
+                        startBoxNum = winner[1][0]
+                        endBoxNum = winner[1][1]
+                        
+                        startPos = allBoxContainers[startBoxNum].GetCenter()
+                       
+                        endPos = allBoxContainers[endBoxNum].GetCenter()
+                        
+                        pygame.draw.line(screen, (0, 255, 0), startPos, endPos, 15)
+                        
+                        # winner is just the player id that won, so guaranteed to return
                         for player in players:
                             if player.id == winner[0]:
                                 return player.name
-                        
+                            
                     redraw = True
                     
                     currentPlayer = 1 - currentPlayer
@@ -125,21 +148,32 @@ def run_game(screen, size):
                 return
                 
         if redraw:
-            screen.fill((0, 0, 0))
             
-            for drawBox in allBoxContainers:
-                drawBox.Draw(screen)
-            
-            DrawLines(screen, positionInfo, spacer)
+            DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer)
             DrawCurrentPlayer(screen, players[currentPlayer])
             
-            screen.blit(currentIdentifier, (positionInfo.startPosX[currentBox %3], positionInfo.startPosY[currentBox//3]))
-            
-            
+            if allBoxContainers[currentBox].CanBeClickedIn():
+                screen.blit(currentIdentifier, (positionInfo.startPosX[currentBox %3], positionInfo.startPosY[currentBox//3]))
             
             pygame.display.flip()
+            
             redraw = False
-        
+
+
+def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
+    """
+    Will draw all of the standard information to the screen
+    Note: To finish drawing, must call pygame.display.flip() after calling this function
+    """
+    
+    screen.fill((0, 0, 0))
+            
+    for drawBox in allBoxContainers:
+        drawBox.Draw(screen)
+    
+    DrawLines(screen, positionInfo, spacer)
+    
+    
 def CreateBoxes(linesExtraLength, spacer, miniSpacer, xStart, yStart):
     allBoxContainers = []
     allBoxOwners = []
@@ -199,7 +233,6 @@ def DrawCurrentPlayer(screen, currentPlayerInfo):
     
     rect = currentPlayerInfo.image.get_rect()
     
-    print(label)
     screen.blit(label, (0, (rect.height - myfont.size(text)[1]) / 2))
     
     

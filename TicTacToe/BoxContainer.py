@@ -47,10 +47,20 @@ class BoxContainer(pygame.sprite.Sprite):
                 
                 self.ownedBy.append(0)
         
-    
+   
+    def GetCenter(self):
+        middleRect = self.allPositions[4]
+        return middleRect.center
+        
     def GetBottomRight(self):
         bottomRightRect = self.allPositions[-1]
         return (bottomRightRect[0] + bottomRightRect.width, bottomRightRect[1] + bottomRightRect.height)
+    
+    def CanBeClickedIn(self):
+        """
+        Will return if any of these boxes haven't been placed in
+        """
+        return 0 in self.ownedBy
         
     def HandleClicked(self, mousePos, player):
         """
