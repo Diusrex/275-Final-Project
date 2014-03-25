@@ -97,12 +97,12 @@ def run_game(screen, size):
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 
-                
                 # if it was a valid press, x will be a tuple containing (boxStatus, boxPressedIn)
-                x = allBoxContainers[currentBox].HandleClicked(pos, players[currentPlayer])
+                if (allBoxContainers[currentBox].CanBeClickedIn()):
+                    x = allBoxContainers[currentBox].HandleClicked(pos, players[currentPlayer])
                 
                 # It is possible that it is impossible to place in current box, in which case any box is valid
-                if (not allBoxContainers[currentBox].CanBeClickedIn()):
+                else:
                     for box in allBoxContainers:
                         temp = box.HandleClicked(pos, players[currentPlayer])
                         if temp != None:
