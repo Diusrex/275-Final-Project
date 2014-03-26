@@ -116,6 +116,7 @@ def run_game(screen, size):
                     
                     # This is to display special information about who won, this function will be exited from
                     if (winner[0] != 0):
+                        screen.fill((0, 0, 0))
                         DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer)
                         
                         # Draw the winning line
@@ -148,7 +149,7 @@ def run_game(screen, size):
                 return
                 
         if redraw:
-            
+            screen.fill((0, 0, 0))
             DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer)
             DrawCurrentPlayer(screen, players[currentPlayer])
             
@@ -165,8 +166,6 @@ def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
     Will draw all of the standard information to the screen
     Note: To finish drawing, must call pygame.display.flip() after calling this function
     """
-    
-    screen.fill((0, 0, 0))
             
     for drawBox in allBoxContainers:
         drawBox.Draw(screen)
