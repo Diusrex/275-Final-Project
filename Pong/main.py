@@ -24,10 +24,10 @@ def main(screen, size):
         
         label = myfont.render("Congratulations " + playerOutput + ", you won the game!", 50, (255,255,0))
         
-        screen.blit(label, (300, 0))
+        screen.blit(label, (275, 0))
         
         label = myfont.render("To play another game press enter. To exit press escape", 50, (255,255,0))
-        screen.blit(label, (300, myfont.size("hi")[1] + 5))
+        screen.blit(label, (275, myfont.size("hi")[1] + 5))
         
         pygame.display.flip()
         
@@ -67,7 +67,6 @@ def run_game(screen, size):
     If there was a winner, will draw the game before returning
     
     """
-    
     
     players = [Player("Player 1", (12, size[1] / 2), K_w, K_s),
                Player("Player 2", (size[0] - 15, size[1] / 2), K_UP, K_DOWN)]
