@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import *
 import pygame.time
+import math
+
+import ball
 
 from player import Player
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
@@ -47,7 +50,18 @@ def main(screen, size):
                     return
 
                     
-                    
+class Scores():
+    def __init__(self):
+        self.leftPlayerScore = 0
+        
+        self.rightPlayerScore = 0
+        
+    def HitLeftSide(self):
+        self.rightPlayerScore += 1
+    
+    def HitRightSide(self):
+        self.leftPlayerScore += 1
+        
 def run_game(screen, size):    
     """
     If there was a winner, will draw the game before returning
@@ -55,14 +69,18 @@ def run_game(screen, size):
     """
     
     
-    players = [Player("Player 1", (5, size[1] / 2), K_w, K_s),
-               Player("Player 2", (size[0] - 10, size[1] / 2), K_UP, K_DOWN)]
+    players = [Player("Player 1", (12, size[1] / 2), K_w, K_s),
+               Player("Player 2", (size[0] - 15, size[1] / 2), K_UP, K_DOWN)]
     
     
     allSprites = pygame.sprite.Group()
     allSprites.add(players[0])
     allSprites.add(players[1])
     
+    score = Scores()
+    theBall = ball.Ball((250, 250), [40, 40], score)
+    
+    allSprites.add(theBall)
     # add paddle
     
     clock = pygame.time.Clock()
@@ -90,12 +108,37 @@ def run_game(screen, size):
         
         time = clock.tick()
         
-        allSprites.update(time)
+        allSprites.update(time / 100, size)
         
         allSprites.draw(screen)
         
+        if pygame.sprite.collide_rect(players[0], theBall):
+            theBall.speed[0] = math.fabs(theBall.speed[0])
+        if pygame.sprite.collide_rect(players[1], theBall):
+            theBall.speed[0] = - math.fabs(theBall.speed[0])
+        
+        DrawScore(screen, score, size)
+        
         pygame.display.flip()
 
+def DrawScore(screen, score, screenSize):
+    myfont = pygame.font.SysFont("monospace", 200)
+        
+    firstScore = myfont.render(str(score.leftPlayerScore), 200, (255,255,255))
+        
+        
+    secondScore = myfont.render(str(score.rightPlayerScore), 200, (255,255,255))
+    
+    middle = screenSize[0] / 2
+    spacer = 15
+    
+    firstPos = middle - spacer - myfont.size(str(score.leftPlayerScore))[0]
+    secondPos = middle + spacer
+    
+    screen.blit(firstScore, (firstPos, 0))
+    screen.blit(secondScore, (secondPos, 0))
+    
+    
 if __name__ == "__main__":
     pygame.init()
     size = (1024, 768)
