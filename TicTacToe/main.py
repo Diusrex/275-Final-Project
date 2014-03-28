@@ -21,7 +21,7 @@ def main(screen, size):
             return
             
         
-        myfont = pygame.font.SysFont("monospace", 15)
+        myfont = pygame.font.SysFont("monospace", 20)
         
         label = myfont.render("Congratulations " + playerOutput + ", you won the game!", 50, (255,255,0))
         
@@ -224,7 +224,7 @@ def DrawLines(screen, positionInfo, spacer):
 
 
 def DrawCurrentPlayer(screen, currentPlayerInfo):
-    myfont = pygame.font.SysFont("monospace", 15)
+    myfont = pygame.font.SysFont("monospace", 20)
     
     text = "Current player is " + currentPlayerInfo.name + ": "
     
