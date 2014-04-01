@@ -120,7 +120,6 @@ class Block:
         xPos = self.position.x
         yPos = self.position.y
         for block in self.shape:
-            print(bottomPos, yPos + block.y, [horizontalOffset + self.blockSize * (xPos + block.x), bottomPos - self.blockSize * (yPos + block.y)])
             screen.blit(self.image, [horizontalOffset + self.blockSize * (xPos + block.x), bottomPos - self.blockSize * (yPos + block.y)])
         
         
