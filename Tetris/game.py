@@ -159,6 +159,7 @@ class Game:
                 
                 redraw = False
         
+        print("Returning score")
         # Return the score
         return self.score
         

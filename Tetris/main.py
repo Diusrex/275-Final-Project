@@ -9,6 +9,8 @@ from coordinate import Coordinate
 
 
 def main(screen, screenSize):
+    highScores = LoadHighScores("scores.txt")
+
     tryingToExit = False
     
     while not tryingToExit:
@@ -36,19 +38,32 @@ def RunGame(screen, screenSize):
     """
     theGame = game.Game(screenSize, 30)
     theGame.SetUpNewGame()
-    theGame.RunUntilLoss(screen)
+    
+    return theGame.RunUntilLoss(screen)
 
+def LoadHighScores(file):
+    #with file as open(file, 'r'):
+    
     
 def ShowScoreScreen(screen, screenSize, score):
     """
     Will overwrite the screen createdy by the game
     """
+    
+    # clear all of the events
+    ev = pygame.event.get()
+    
     screen.fill((0, 0, 0))
     
     myfont = pygame.font.SysFont("monospace", 30)
     
     posY = 20
     posY = tutorial.WriteText(screen, screenSize, myfont, "Congratulations, you earned a score of " + str(score), posY, True)
+    
+    if score == 0:
+        posY = tutorial.WriteText(screen, screenSize, myfont, "I'm sure you'll do better next time", posY, True)
+    
+    posY += 20
     
     myfont = pygame.font.SysFont("monospace", 15)
     
@@ -57,6 +72,8 @@ def ShowScoreScreen(screen, screenSize, score):
     # EDIT: Display all older high scores, and add option to add own high score?
     
     pygame.display.flip()
+    
+    
     
     while True:
         ev = pygame.event.get()

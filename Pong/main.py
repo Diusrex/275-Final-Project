@@ -12,19 +12,19 @@ def main(screen, screenSize):
     tryingToExit = False
     
     while not tryingToExit:
-        decision = menu.RunMenu(screen, screenSize, highScores)
+        decision = menu.RunMenu(screen, screenSize)
         
         if decision == menu.tutorialText:
             tutorial.RunTutorial(screen, screenSize)
         
         elif decision == menu.playText:
-            scoreInfo = game.RunGame(screen, screenSize, highScores)
+            scoreInfo = game.RunGame(screen, screenSize)
             
             if scoreInfo == None:
                 tryingToExit = True
             
             else: 
-                ShowWinScreen(screen, screenSize, scoreInfo, highScores)
+                ShowWinScreen(screen, screenSize, scoreInfo)
             
         else:
             tryingToExit = True
@@ -59,9 +59,6 @@ def ShowWinScreen(screen, screenSize, scoreInfo):
             if event.type == pygame.KEYDOWN:
                 return
 
-
-def LoadHighScores(file):
-    #with file as open(file, 'r'):
         
     
     
