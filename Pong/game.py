@@ -20,15 +20,15 @@ class Scores():
         self.leftPlayerScore += 1
         
         
-def RunGame(screen, size):    
+def RunGame(screen, screenSize):    
     """
     If there was a winner, will leave the screen drawn and return the score info
     
     If the user wanted to exit, then will return None
     """
     
-    players = [Player("Player 1", (12, size[1] / 2), K_w, K_s),
-               Player("Player 2", (size[0] - 15, size[1] / 2), K_UP, K_DOWN)]
+    players = [Player("Player 1", (12, screenSize[1] / 2), K_w, K_s),
+               Player("Player 2", (screenSize[0] - 15, screenSize[1] / 2), K_UP, K_DOWN)]
     
     
     allSprites = pygame.sprite.Group()
@@ -36,7 +36,19 @@ def RunGame(screen, size):
     allSprites.add(players[1])
     
     score = Scores()
-    theBall = ball.Ball((250, 250), [40, 40], score)
+    
+    # Want the overall speed to be the same, but want the angle to be random
+    xSpeed = random.randint(30, 50)
+    xNegative = random.randint(0, 1)
+    if xNegative == 1:
+        xSpeed *= -1
+        
+    ySpeed = math.sqrt(3200 ** 2 - xSpeed ** 2)
+    yNegative = random.randint(0, 1)
+    if yNegative == 1:
+        ySpeed *= -1
+        
+    theBall = ball.Ball((250, 250), [xSpeed, ySpeed], score)
     
     allSprites.add(theBall)
     # add paddle    
@@ -66,17 +78,20 @@ def RunGame(screen, size):
         
         time = clock.tick()
         
-        allSprites.update(time / 100, size)
+        allSprites.update(time / 100, screenSize)
         
         allSprites.draw(screen)
         
-        # These use fabs because it is possile that the ball hit the wall behind the paddle, then the paddle, and the ball should not bounce back against the wall
+        # These use fabs because it is possible that the ball hit the wall behind the paddle, then the paddle, and the ball should not bounce back against the wall
         if pygame.sprite.collide_rect(players[0], theBall):
             theBall.speed[0] = math.fabs(theBall.speed[0])
+            theBall.RandomlyIncreaseSpeed()
+            
         if pygame.sprite.collide_rect(players[1], theBall):
             theBall.speed[0] = - math.fabs(theBall.speed[0])
-        
-        DrawScore(screen, score, size)
+            theBall.RandomlyIncreaseSpeed()
+            
+        DrawScore(screen, score, screenSize)
         
         pygame.display.flip()
     

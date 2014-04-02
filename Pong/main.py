@@ -1,36 +1,37 @@
 import pygame
+import random
 
 import menu
 import tutorial
 import game
 
-from player import Player
-
     
-def main(screen, size):
+def main(screen, screenSize):
+    highScores = LoadHighScores("scores.txt")
+    
     tryingToExit = False
     
     while not tryingToExit:
-        decision = menu.RunMenu(screen, size)
+        decision = menu.RunMenu(screen, screenSize, highScores)
         
         if decision == menu.tutorialText:
-            tutorial.RunTutorial(screen, size)
+            tutorial.RunTutorial(screen, screenSize)
         
         elif decision == menu.playText:
-            scoreInfo = game.RunGame(screen, size)
+            scoreInfo = game.RunGame(screen, screenSize, highScores)
             
             if scoreInfo == None:
                 tryingToExit = True
             
             else: 
-                ShowWinScreen(screen, size, scoreInfo)
+                ShowWinScreen(screen, screenSize, scoreInfo, highScores)
             
         else:
             tryingToExit = True
             
         
 
-def ShowWinScreen(screen, size, scoreInfo):
+def ShowWinScreen(screen, screenSize, scoreInfo):
     """
     screen should already have the background set up
     """
@@ -43,11 +44,11 @@ def ShowWinScreen(screen, size, scoreInfo):
     myfont = pygame.font.SysFont("monospace", 30)
     
     posY = 300
-    posY = tutorial.WriteText(screen, size, myfont, "Congratulations " + winner + " you have won!", posY, True)
+    posY = tutorial.WriteText(screen, screenSize, myfont, "Congratulations " + winner + " you have won!", posY, True)
     
     myfont = pygame.font.SysFont("monospace", 15)
     
-    posY = tutorial.WriteText(screen, size, myfont, "Press any button to return to the main menu", posY, True)
+    posY = tutorial.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
     
     pygame.display.flip()
     
@@ -57,9 +58,17 @@ def ShowWinScreen(screen, size, scoreInfo):
         for event in ev:
             if event.type == pygame.KEYDOWN:
                 return
+
+
+def LoadHighScores(file):
+    #with file as open(file, 'r'):
+        
+    
     
 if __name__ == "__main__":
     pygame.init()
+    random.seed()
+    
     size = (1024, 768)
     screen = pygame.display.set_mode(size)
     main(screen, size)

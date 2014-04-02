@@ -4,7 +4,7 @@ import button
 
 name = "Pong"
 
-def RunTutorial(screen, size):
+def RunTutorial(screen, screenSize):
     """
     Will display the tutorial/information needed for the user to be able to play properly.
     
@@ -17,32 +17,32 @@ def RunTutorial(screen, size):
     
     posY = 10
     
-    posY = WriteText(screen, size, myfont, name, posY, True)
+    posY = WriteText(screen, screenSize, myfont, name, posY, True)
     
     posY += 100
     
     myfont = pygame.font.SysFont("monospace", 20)
     
-    posY = WriteText(screen, size, myfont, "Rules for the game: ", posY, True)
+    posY = WriteText(screen, screenSize, myfont, "Rules for the game: ", posY, True)
     posY += 10
     
-    posY = WriteText(screen, size, myfont, "To score a point, the ball must hit the opposite wall from your paddle.", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "To score a point, the ball must hit the opposite wall from your paddle.", posY, False)
     
-    posY = WriteText(screen, size, myfont, "The first player to score 7 points wins.", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "The first player to score 7 points wins.", posY, False)
     
-    posY = WriteText(screen, size, myfont, "The ball will slowly increase its speed, and will start in a random direction.", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "The ball will slowly increase its speed, and will start in a random direction.", posY, False)
     
     posY += 20
     
-    posY = WriteText(screen, size, myfont, "Controls for the game: ", posY, True)
+    posY = WriteText(screen, screenSize, myfont, "Controls for the game: ", posY, True)
     
     posY += 10
     
-    posY = WriteText(screen, size, myfont, "The first player (paddle on left) conrols their paddle with w and s.", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "The first player (paddle on left) conrols their paddle with w and s.", posY, False)
     
-    posY = WriteText(screen, size, myfont, "The second player (paddle on right) conrols their paddle with left and right arrows.", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "The second player (paddle on right) conrols their paddle with left and right arrows.", posY, False)
     
-    posY = WriteText(screen, size, myfont, "To exit, press exit", posY, False)
+    posY = WriteText(screen, screenSize, myfont, "To exit, press exit", posY, False)
     
     myfont = pygame.font.SysFont("monospace", 20)
     
@@ -51,7 +51,7 @@ def RunTutorial(screen, size):
     continueSize = myfont.size(continueText)
     
     continueButton = button.Button(
-        (size[0] // 2, posY + 20), 
+        (screenSize[0] // 2, posY + 20), 
         (continueSize[0] + 10, continueSize[1] + 10), 
         continueText, continueRenderedText, continueSize)
     
@@ -85,15 +85,15 @@ def WriteText(screen, screenSize, font, text, posY, center):
     """
     toRender = font.render(text, 50, (255, 255, 0))
     
-    size = font.size(text)
+    textSize = font.size(text)
     
     if center:
-        posX = (screenSize[0] - size[0]) / 2
+        posX = (screenSize[0] - textSize[0]) / 2
     else:
         posX = 0
     
     screen.blit(toRender, (posX, posY))
     
     
-    return posY + size[1] + 5
+    return posY + textSize[1] + 5
     

@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class Ball(pygame.sprite.Sprite):
     standardImage = pygame.Surface((15, 15))
@@ -16,7 +17,20 @@ class Ball(pygame.sprite.Sprite):
         
         self.impactHandler = impactHandler
         
+    def RandomlyIncreaseSpeed(self):
+        # Should not increase beyond this point
+        if self.speed[0] ** 2 + self.speed[1] ** 2 > 10000:
+            print("Done increasing speed")
+            return
+        # These are to make it so that the increases can be added to speed without danger of decreasing speed
+        xMultiplyer = self.speed[0] / math.fabs(self.speed[0])
+        yMultiplyer = self.speed[1] / math.fabs(self.speed[1])
         
+        xIncrease = random.randint(0, 4) * xMultiplyer
+        yIncrease = random.randint(0, 4) * yMultiplyer
+        
+        self.speed[0] += xIncrease
+        self.speed[1] += yIncrease
         
     def update(self, timePassed, screenSize):
         """
