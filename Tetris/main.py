@@ -3,7 +3,7 @@ import game
 import random
 
 import menu
-
+import tutorial
 from coordinate import Coordinate
 
 
@@ -12,7 +12,7 @@ def main(screen, size):
     decision = menu.RunMenu(screen, size)
     
     if decision == menu.tutorialText:
-        RunTutorial(screen, size)
+        tutorial.RunTutorial(screen, size)
     
     elif decision == menu.playText:
         RunGame(screen, size)

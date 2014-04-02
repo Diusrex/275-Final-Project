@@ -40,6 +40,9 @@ def RunMenu(screen, size):
                     value = currentButton.HandleMousePress(pos)
                     if value != None:
                         return value
+            
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return exitText
                 
             elif event.type == pygame.QUIT:
                 return exitText
