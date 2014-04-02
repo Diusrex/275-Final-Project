@@ -9,15 +9,24 @@ from coordinate import Coordinate
 
 
 def main(screen, size):
-    decision = menu.RunMenu(screen, size)
+    tryingToExit = False
     
-    if decision == menu.tutorialText:
-        tutorial.RunTutorial(screen, size)
-    
-    elif decision == menu.playText:
-        RunGame(screen, size)
-
-    
+    while not tryingToExit:
+        decision = menu.RunMenu(screen, size)
+        
+        if decision == menu.tutorialText:
+            tutorial.RunTutorial(screen, size)
+        
+        elif decision == menu.playText:
+            score = RunGame(screen, size)
+            
+            # They wanted to exit
+            if score == None:
+                tryingToExit = True
+            else:
+                ShowScoreScreen(screen, size, score)
+        else:
+            tryingToExit = True
 
     
     
@@ -28,8 +37,13 @@ def RunGame(screen, size):
     theGame = game.Game(size, 30)
     theGame.SetUpNewGame()
     theGame.RunUntilLoss(screen)
+
     
-    
+def ShowScoreScreen(screen, size, score):
+    """
+    Will overwrite the screen createdy by the game
+    """
+    screen.fill((0, 0, 0))
 
 
 
