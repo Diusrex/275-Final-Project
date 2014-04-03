@@ -1,5 +1,8 @@
 import pygame
+import random
+
 import block
+
 from coordinate import Coordinate
 
 from drawFunctions import WriteText, DisplayHighScores
@@ -139,7 +142,7 @@ class Game:
                     
             timePassed += clock.tick()
             
-            if timePassed >= timeToShift or (shiftPressed and timePassed >= timeToShift / 4):
+            if timePassed >= self.timeToShift or (shiftPressed and timePassed >= self.timeToShift / 4):
                 ableToMove = self.usedBlock.Update(self.placedGrid)
                 
                 if not ableToMove:
