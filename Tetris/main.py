@@ -14,36 +14,54 @@ def main(screen, screenSize):
     tryingToExit = False
     
     while not tryingToExit:
-        decision = menu.RunMenu(screen, screenSize)
+        decision = menu.RunMenu(screen, screenSize, highScores)
         
         if decision == menu.tutorialText:
             tutorial.RunTutorial(screen, screenSize)
         
         elif decision == menu.playText:
-            score = RunGame(screen, screenSize)
+            score = RunGame(screen, screenSize, highScores)
             
             # They wanted to exit
             if score == None:
                 tryingToExit = True
             else:
-                ShowScoreScreen(screen, screenSize, score)
+                UpdateHighScores(score, highScores)
+                ShowScoreScreen(screen, screenSize, score, highScores)
+                
         else:
             tryingToExit = True
 
     
     
-def RunGame(screen, screenSize):    
+def RunGame(screen, screenSize, highScores):    
     """
     Will run the game
     """
     theGame = game.Game(screenSize, 30)
     theGame.SetUpNewGame()
     
-    return theGame.RunUntilLoss(screen)
-
-def LoadHighScores(file):
-    #with file as open(file, 'r'):
+    return theGame.RunUntilLoss(screen, highScores)
     
+maxNumScores = 10
+
+def LoadHighScores(filePath):
+    scores = [("", 0) for x in range(maxNumScores)]
+    with open(filePath, 'r') as theFile:
+        pos = 0
+        
+        for line in theFile:
+            if pos >= maxNumScores:
+                break
+            
+            line = line.strip().split()
+            
+            if len(line) > 1:
+                scores[pos] = (line[0], line[1])
+                
+                pos += 1
+    
+    return scores
     
 def ShowScoreScreen(screen, screenSize, score):
     """

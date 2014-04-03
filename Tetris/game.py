@@ -1,6 +1,10 @@
 import pygame
 import block
 from coordinate import Coordinate
+
+from drawFunctions import WriteText, DisplayHighScores
+
+
 class Game:
     """
     Will handle all of the game's logic.
@@ -26,6 +30,8 @@ class Game:
         # scoreMultiplyer[0] is just for ease of getting the score multiplyer
         self.scoreMultiplyer = [0, 1, 1.2, 1.4, 1.8]
         
+        self.timeToShiftStart = 1000
+        self.timeToShiftMinimum = 500
         
         
     def SetUpNewGame(self):
@@ -75,7 +81,7 @@ class Game:
         
         
         
-    def RunUntilLoss(self, screen):
+    def RunUntilLoss(self, screen, highScores):
         """
         Will run the game until the user looses.
         Will return the user's score
@@ -85,7 +91,7 @@ class Game:
         clock = pygame.time.Clock()
         
         timePassed = 0
-        timeToShift = 1000
+        self.timeToShift = self.timeToShiftStart
         
         # If the user is pressing shift, then the speed at which blocks descends will increase
         shiftPressed = False
@@ -154,7 +160,8 @@ class Game:
                 
                 self.DrawGrid(screen)
                 
-                self.DrawScore(screen)
+                self.DrawScores(screen, highScores)
+                
                 pygame.display.flip()
                 
                 redraw = False
@@ -204,6 +211,13 @@ class Game:
                         self.placedGrid[xPos][tempYPos] = self.placedGrid[xPos][tempYPos + 1]
                     self.placedGrid[xPos][self.numberBoxesY - 1] = None
         
+        if count > 0:
+            self.timeToShift -= random.randint(20, 50)
+            
+            # Shouldn't be less than minimum
+            if self.timeToShift < self.timeToShiftMinimum:
+                self.timeToShift = self.timeToShiftMinimum
+                
         scoreIncrease = count * self.scorePerRow * self.scoreMultiplyer[count]
         self.score += scoreIncrease
     
@@ -243,28 +257,16 @@ class Game:
             pygame.draw.line(screen, (128, 128, 128), 
             (self.middleOffset, self.totalSize[1] - self.boxSize * boxYPos), (self.middleOffset + self.boxSize * self.numberBoxesX, self.totalSize[1] - self.boxSize * boxYPos))    
     
-    def DrawScore(self, screen):
+    def DrawScores(self, screen, highScores):
         """
         Will draw the score to the right of the screen
         """
         
         myfont = pygame.font.SysFont("monospace", 20)
         
-        standardYSize = myfont.size("testing")[1]
-        output = "Current Score:"
-        label = myfont.render(output, 50, (255,255,0))
+        positionY = WriteText(screen, self.leftSize, myfont, "Current Score:", 20, True)
         
-        positionY = 50
+        positionY = WriteText(screen, self.leftSize, myfont, str(self.score), positionY, True)
         
-        xPos = (self.leftSize[0] - myfont.size(output)[0]) / 2
-        
-        screen.blit(label, (xPos, positionY))
-        
-        positionY += standardYSize + 5
-        
-        
-        output = str(self.score)
-        label = myfont.render(output, 50, (255,255,0))
-        
-        xPos = (self.leftSize[0] - myfont.size(output)[0]) / 2
-        screen.blit(label, (xPos, positionY))
+        positionY += 100
+        positionY = DisplayHighScores(screen, self.leftSize, positionY, highScores, 20)

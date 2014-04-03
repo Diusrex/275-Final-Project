@@ -7,7 +7,7 @@ import game
 
     
 def main(screen, screenSize):
-    highScores = LoadHighScores("scores.txt")
+    
     
     tryingToExit = False
     

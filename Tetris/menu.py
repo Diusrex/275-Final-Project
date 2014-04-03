@@ -2,13 +2,15 @@ import pygame
 import random
 import button
 
+from drawFunctions import WriteText, DisplayHighScores
+
 name = "Tetris"
 playText = "Play the Game"
 tutorialText = "How to Play"
 exitText = "Exit"
 
 
-def RunMenu(screen, size):
+def RunMenu(screen, screenSize, highScores):
     """
     Will return one of playText, tutorialText, or exitText
     """
@@ -19,10 +21,11 @@ def RunMenu(screen, size):
     infoSize = myfont.size(name)
     nameRenderText = myfont.render(name, 50, (255,255,0))
     
-    screen.blit(nameRenderText, ( (size[0] - infoSize[0]) / 2, 0))
+    screen.blit(nameRenderText, ( (screenSize[0] - infoSize[0]) / 2, 0))
     
-    buttonGroup = CreateButtons(infoSize[1] + 100, size)
+    buttonGroup, posY = CreateButtons(infoSize[1] + 60, screenSize)
     
+    posY = DisplayHighScores(screen, screenSize, posY, highScores, 20)
     
     buttonGroup.draw(screen)
     
@@ -48,6 +51,8 @@ def RunMenu(screen, size):
                 return exitText
 
 
+
+    
 def CreateButtons(posY, size):
     """
     Will create a pygame.sprite.Group that contains all of the buttons. The top buttons will appear at posY
@@ -83,5 +88,7 @@ def CreateButtons(posY, size):
                         (size[0] //2, posY), 
                         (tempSize[0] + 10, tempSize[1] + 10), 
                         exitText, tempRenderedText, tempSize))
-                        
-    return buttonGroup
+    posY += tempSize[1] + 60
+    
+    
+    return buttonGroup, posY

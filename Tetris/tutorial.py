@@ -2,6 +2,8 @@ import pygame
 import random
 import button
 
+from drawFunctions import WriteText
+
 name = "Tetris"
 
 def RunTutorial(screen, size):
@@ -81,21 +83,5 @@ def RunTutorial(screen, size):
                 return False
         
     
-def WriteText(screen, screenSize, font, text, posY, center):
-    """
-    Will return the new posY, after the increase from the recently added text
-    """
-    toRender = font.render(text, 50, (255, 255, 0))
-    
-    size = font.size(text)
-    
-    if center:
-        posX = (screenSize[0] - size[0]) / 2
-    else:
-        posX = 0
-    
-    screen.blit(toRender, (posX, posY))
-    
-    
-    return posY + size[1] + 5
+
     
