@@ -1,5 +1,5 @@
 import pygame
-import Calculations
+import calculations
 
 class BoxContainer(pygame.sprite.Sprite):
     """
@@ -79,7 +79,7 @@ class BoxContainer(pygame.sprite.Sprite):
                 # Check to see if the status could have been changed
                 if self.status == 0:
                     
-                    info = Calculations.CheckIfWin(self.ownedBy)
+                    info = calculations.CheckIfWin(self.ownedBy)
                     
                     if (info[0] != 0):
                         self.status = info[0]
@@ -98,6 +98,9 @@ class BoxContainer(pygame.sprite.Sprite):
         return None
         
     def Draw(self, screen):
+        """
+        Will draw all the squares inside of this box, and will draw the win line if there is one
+        """
         for pos in range(9):
             screen.blit(self.allSprites[pos], self.allPositions[pos])
             
