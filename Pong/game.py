@@ -3,6 +3,7 @@ from pygame.locals import *
 import pygame.time
 import math
 
+import drawFunctions
 import ball
 
 from player import Player
@@ -27,6 +28,7 @@ def RunGame(screen, screenSize):
     If the user wanted to exit, then will return None
     """
     
+    # Setting up the game
     players = [Player("Player 1", (12, screenSize[1] / 2), K_w, K_s),
                Player("Player 2", (screenSize[0] - 15, screenSize[1] / 2), K_UP, K_DOWN)]
     
@@ -55,6 +57,7 @@ def RunGame(screen, screenSize):
     
     clock = pygame.time.Clock()
     
+    # Run the game until one user has a score of 7
     while score.leftPlayerScore < 7 and score.rightPlayerScore < 7:
         ev = pygame.event.get()
         
@@ -91,26 +94,10 @@ def RunGame(screen, screenSize):
             theBall.speed[0] = - math.fabs(theBall.speed[0])
             theBall.RandomlyIncreaseSpeed()
             
-        DrawScore(screen, score, screenSize)
+        drawFunctions.DrawScore(screen, score, screenSize)
         
         pygame.display.flip()
     
     
     return score
     
-def DrawScore(screen, score, screenSize):
-    myfont = pygame.font.SysFont("monospace", 200)
-        
-    firstScore = myfont.render(str(score.leftPlayerScore), 200, (255,255,255))
-        
-        
-    secondScore = myfont.render(str(score.rightPlayerScore), 200, (255,255,255))
-    
-    middle = screenSize[0] / 2
-    spacer = 15
-    
-    firstPos = middle - spacer - myfont.size(str(score.leftPlayerScore))[0]
-    secondPos = middle + spacer
-    
-    screen.blit(firstScore, (firstPos, 0))
-    screen.blit(secondScore, (secondPos, 0))

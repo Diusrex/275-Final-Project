@@ -4,11 +4,9 @@ import random
 import menu
 import tutorial
 import game
-
+import drawFunctions
     
 def main(screen, screenSize):
-    
-    
     tryingToExit = False
     
     while not tryingToExit:
@@ -44,11 +42,11 @@ def ShowWinScreen(screen, screenSize, scoreInfo):
     myfont = pygame.font.SysFont("monospace", 30)
     
     posY = 300
-    posY = tutorial.WriteText(screen, screenSize, myfont, "Congratulations " + winner + " you have won!", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Congratulations " + winner + " you have won!", posY, True)
     
     myfont = pygame.font.SysFont("monospace", 15)
     
-    posY = tutorial.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
     
     pygame.display.flip()
     
@@ -66,8 +64,8 @@ if __name__ == "__main__":
     pygame.init()
     random.seed()
     
-    size = (1024, 768)
-    screen = pygame.display.set_mode(size)
-    main(screen, size)
+    screenSize = (1024, 768)
+    screen = pygame.display.set_mode(screenSize)
+    main(screen, screenSize)
     
     
