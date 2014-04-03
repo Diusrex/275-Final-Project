@@ -1,7 +1,7 @@
 import pygame
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, centerPosition, size, text, renderedText, textSize):
+    def __init__(self, centerPosition, buttonSize, text, renderedText, textSize):
         """
         center position will be the centre of where the button will be
         both center and size should be tuples
@@ -12,11 +12,11 @@ class Button(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.text = text
         
-        self.image = pygame.Surface(size)
+        self.image = pygame.Surface(buttonSize)
         self.image.fill((255, 0, 0))
         
-        textStartX = (size[0] - textSize[0]) / 2
-        textStartY = (size[1] - textSize[1]) / 2
+        textStartX = (buttonSize[0] - textSize[0]) / 2
+        textStartY = (buttonSize[1] - textSize[1]) / 2
         
         self.image.blit(renderedText, (textStartX, textStartY))
         

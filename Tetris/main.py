@@ -56,8 +56,8 @@ if __name__ == "__main__":
     pygame.init()
     random.seed()
     
-    size = (1024, 650)
-    screen = pygame.display.set_mode(size)
-    main(screen, size)
+    screenSize = (1024, 650)
+    screen = pygame.display.set_mode(screenSize)
+    main(screen, screenSize)
     
     

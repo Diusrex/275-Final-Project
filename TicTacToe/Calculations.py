@@ -51,4 +51,5 @@ def CheckIfWin(allBoxOwners):
     if topRightSame and topRightId != 0:
         return (topRightId, (2, 6))
     
+    # Need to return a tuple
     return (0,)

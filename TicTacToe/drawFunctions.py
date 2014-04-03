@@ -23,7 +23,6 @@ def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
     Will draw all of the standard information to the screen
     Note: To finish drawing, must call pygame.display.flip() after calling this function
     """
-            
     for drawBox in allBoxContainers:
         drawBox.Draw(screen)
     

@@ -49,7 +49,7 @@ def RunMenu(screen, screenSize):
 
 
     
-def CreateButtons(posY, size):
+def CreateButtons(posY, screenSize):
     """
     Will create a pygame.sprite.Group that contains all of the buttons. The top buttons will appear at posY
     """
@@ -61,7 +61,7 @@ def CreateButtons(posY, size):
     tempSize = myfont.size(playText)
     
     buttonGroup.add(button.Button(
-                        (size[0] //2, posY), 
+                        (screenSize[0] //2, posY), 
                         (tempSize[0] + 10, tempSize[1] + 10), 
                         playText, tempRenderedText, tempSize))
     
@@ -71,7 +71,7 @@ def CreateButtons(posY, size):
     tempSize = myfont.size(tutorialText)
     
     buttonGroup.add(button.Button(
-                        (size[0] //2, posY), 
+                        (screenSize[0] //2, posY), 
                         (tempSize[0] + 10, tempSize[1] + 10), 
                         tutorialText, tempRenderedText, tempSize))
     
@@ -81,7 +81,7 @@ def CreateButtons(posY, size):
     tempSize = myfont.size(exitText)
     
     buttonGroup.add(button.Button(
-                        (size[0] //2, posY), 
+                        (screenSize[0] //2, posY), 
                         (tempSize[0] + 10, tempSize[1] + 10), 
                         exitText, tempRenderedText, tempSize))
     posY += tempSize[1] + 60
