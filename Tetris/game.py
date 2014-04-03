@@ -129,20 +129,16 @@ class Game:
                     elif event.key == pygame.K_UP:
                         self.usedBlock.RotateClockwise(self.placedGrid)
                         redraw = True
-                    
-                    elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                        shiftPressed = True
-                    
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                        shiftPressed = False
                         
                 elif event.type == pygame.QUIT:
                     return
                     
             timePassed += clock.tick()
             
-            if timePassed >= self.timeToShift or (shiftPressed and timePassed >= self.timeToShift / 4):
+            keysPressed = pygame.key.get_pressed()
+            
+            if timePassed >= self.timeToShift or \
+                ((keysPressed[pygame.K_LSHIFT] or keysPressed[pygame.K_RSHIFT]) and timePassed >= self.timeToShift / 4):
                 ableToMove = self.usedBlock.Update(self.placedGrid)
                 
                 if not ableToMove:
