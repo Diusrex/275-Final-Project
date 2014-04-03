@@ -47,7 +47,7 @@ def RunGame(screen, screenSize, highScores):
     
     return theGame.RunUntilLoss(screen, highScores)
     
-maxNumScores = 10
+
 
 
 

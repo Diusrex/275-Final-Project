@@ -1,33 +1,42 @@
 import pygame
-
+import os
 import drawFunctions
 
 maxNumScores = 10
 maxNameSize = 10
 
 def LoadHighScores(fileName):
+    """
+    Will load up to maxNumScores highScores. 
+    
+    Even if there are less than this number, or if the file does not exist, will return a list of tuples with size maxNumScores
+        If an entry is just a filler, its [0] will be ""
+    """
     highScores = [("", 0) for x in range(maxNumScores)]
-    with open(fileName, 'r') as theFile:
-        pos = 0
-        
-        for line in theFile:
-            if pos >= maxNumScores:
-                break
+    
+    
+
+    if os.path.isfile(fileName):
+        with open(fileName, 'r') as theFile:
+            pos = 0
             
-            line = line.strip().split()
-            
-            if len(line) > 1:
-                highScores[pos] = (' '.join(line[0:-1]), int(line[-1]))
+            for line in theFile:
+                if pos >= maxNumScores:
+                    break
                 
-                pos += 1
+                line = line.strip().split()
+                
+                if len(line) > 1:
+                    highScores[pos] = (' '.join(line[0:-1]), int(line[-1]))
+                    
+                    pos += 1
     
     return highScores
 
 def UpdateHighScores(screen, screenSize, score, highScores, fileName):
     different = False
     for pos in range(len(highScores)):
-        # EDIT: Should only be less than
-        if highScores[pos][1] <= score:
+        if highScores[pos][1] < score:
             different = True
             name = GetHighScoreInput(screen, screenSize, score, pos)
             
