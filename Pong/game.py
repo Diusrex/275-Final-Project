@@ -3,6 +3,8 @@ from pygame.locals import *
 import pygame.time
 import math
 
+import random
+
 import drawFunctions
 import ball
 
@@ -45,11 +47,11 @@ def RunGame(screen, screenSize):
     if xNegative == 1:
         xSpeed *= -1
         
-    ySpeed = math.sqrt(3200 ** 2 - xSpeed ** 2)
+    ySpeed = math.sqrt(3200 - xSpeed ** 2)
     yNegative = random.randint(0, 1)
     if yNegative == 1:
         ySpeed *= -1
-        
+    
     theBall = ball.Ball((250, 250), [xSpeed, ySpeed], score)
     
     allSprites.add(theBall)

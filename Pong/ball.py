@@ -1,14 +1,19 @@
 import pygame
 import math
+import random
 
 class Ball(pygame.sprite.Sprite):
-    standardImage = pygame.Surface((15, 15))
+    standardSize = 15
     
     def __init__(self, position, movement, impactHandler):
         pygame.sprite.Sprite.__init__(self)
         
-        self.image = Ball.standardImage
-        self.image.fill((255, 255, 255))
+        self.image = pygame.Surface((Ball.standardSize, Ball.standardSize))
+        
+        # This makes it so that only the white circle is drawn, rest is ignored
+        self.image.fill((0, 0, 0))
+        self.image.set_colorkey((0, 0, 0))
+        pygame.draw.circle(self.image, (255, 255, 255), (Ball.standardSize // 2, Ball.standardSize // 2), Ball.standardSize // 2)
         
         self.rect = self.image.get_rect()
         self.rect.center = position

@@ -23,7 +23,7 @@ def DrawScore(screen, score, screenSize):
     """
     Will draw the players score to the top center of the screen
     """
-    myfont = pygame.font.SysFont("monospace", 200)
+    myfont = pygame.font.SysFont("monospace", 50)
         
     firstScore = myfont.render(str(score.leftPlayerScore), 200, (255,255,255))
         
@@ -40,5 +40,5 @@ def DrawScore(screen, score, screenSize):
     separatorPosx = middle - myfont.size(':')[0] / 2
     
     screen.blit(firstScore, (firstPosx, 0))
-    screen.blit(separator, (separatorPosX, 0))
+    screen.blit(separator, (separatorPosx, 0))
     screen.blit(secondScore, (secondPosx, 0))

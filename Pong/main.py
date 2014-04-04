@@ -64,7 +64,7 @@ if __name__ == "__main__":
     pygame.init()
     random.seed()
     
-    screenSize = (1024, 768)
+    screenSize = (1024, 650)
     screen = pygame.display.set_mode(screenSize)
     main(screen, screenSize)
     
