@@ -1,14 +1,27 @@
 import pygame
 
+# Use these imports and code if this will be a subdirectory
+
+import TicTacToe.drawFunctions as drawFunctions
+import TicTacToe.boxContainer as boxContainer
+
+import TicTacToe.calculations as calculations
+
+from TicTacToe.positionInfo import PositionInfo
+from TicTacToe.player import Player  
+
+"""
+# Use these imports and code if running the game individually
+
 import drawFunctions
 import boxContainer
 
 import calculations
 
-# EDIT: Probably a bad idea to have a module that shares a name with many variables
 from positionInfo import PositionInfo
 from player import Player  
-        
+"""
+
 def RunGame(screen, screenSize):    
     """
     If there was a winner, will leave the screen drawn and return the score info
@@ -16,8 +29,8 @@ def RunGame(screen, screenSize):
     If the user wanted to exit, then will return None
     """
     
-    players = [Player("Player 1", 1, pygame.image.load('xPressed.png')),
-               Player("Player 2", 2, pygame.image.load('oPressed.png'))]
+    players = [Player("Player 1", 1, pygame.image.load('Assets/xPressed.png')),
+               Player("Player 2", 2, pygame.image.load('Assets/oPressed.png'))]
     
     
     imageSize = boxContainer.BoxContainer.notPressedImage.get_rect()

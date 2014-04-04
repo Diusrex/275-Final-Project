@@ -5,11 +5,19 @@ import math
 
 import random
 
+# These are the imports for when running from base menu
+import Pong.drawFunctions as drawFunctions
+import Pong.ball as ball
+
+from Pong.player import Player
+
+"""
+# Use these imports when just want to run this game
 import drawFunctions
 import ball
 
 from player import Player
-
+"""
 class Scores():
     def __init__(self):
         self.leftPlayerScore = 0

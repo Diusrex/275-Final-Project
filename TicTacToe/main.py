@@ -1,12 +1,21 @@
 import pygame
 
-import boxContainer
 
+# Use these imports when running the main menu
+import TicTacToe.menu as menu
+import TicTacToe.game as game
+import TicTacToe.tutorial as tutorial
+
+import TicTacToe.drawFunctions as drawFunctions
+
+"""
+# Use these imports when running the game individually
 import menu
 import game
 import tutorial
 
 import drawFunctions
+"""
 
 
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
@@ -14,7 +23,7 @@ import drawFunctions
     # This is for this game only
 
     
-def main(screen, screenSize):
+def Main(screen, screenSize):
     wantsToExit = False
     tryingToExit = False
     

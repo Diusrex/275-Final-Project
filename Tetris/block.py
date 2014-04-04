@@ -1,6 +1,15 @@
 import pygame
-from coordinate import Coordinate
+
 import random
+
+# Use this include if running from base menu
+from Tetris.coordinate import Coordinate
+
+
+"""
+# Use this include if running this game individually
+from coordinate import Coordinate
+"""
 
 class Block:
     """

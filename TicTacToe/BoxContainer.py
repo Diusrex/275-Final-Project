@@ -1,5 +1,12 @@
 import pygame
+
+# Use this import and code if running from base menu
+import TicTacToe.calculations as calculations
+
+"""
+# Use this import if running this game individually
 import calculations
+"""
 
 class BoxContainer(pygame.sprite.Sprite):
     """
@@ -12,7 +19,7 @@ class BoxContainer(pygame.sprite.Sprite):
     self.status is the player this is owned by -> 0 means not owned by anyone
     """
     
-    notPressedImage = pygame.image.load('blank.png')    
+    notPressedImage = pygame.image.load('Assets/blank.png')    
     
     def __init__(self, position, spacing):
         """

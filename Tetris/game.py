@@ -1,12 +1,24 @@
 import pygame
 import random
 
+
+
+# Use these imports when running from base menu
+import Tetris.block as block
+
+from Tetris.coordinate import Coordinate
+
+from Tetris.drawFunctions import WriteText, DisplayHighScores
+
+
+"""
+# Use these imports when running this game individually
 import block
 
 from coordinate import Coordinate
 
 from drawFunctions import WriteText, DisplayHighScores
-
+"""
 
 class Game:
     """

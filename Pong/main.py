@@ -1,12 +1,22 @@
 import pygame
 import random
 
+# Use these imports if running from base menu
+import Pong.menu as menu
+import Pong.tutorial as tutorial
+import Pong.game as game
+import Pong.drawFunctions as drawFunctions
+
+"""
+Use these imports if only running this game.
+
 import menu
 import tutorial
 import game
 import drawFunctions
-    
-def main(screen, screenSize):
+"""
+
+def Main(screen, screenSize):
     tryingToExit = False
     
     while not tryingToExit:
@@ -66,6 +76,6 @@ if __name__ == "__main__":
     
     screenSize = (1024, 650)
     screen = pygame.display.set_mode(screenSize)
-    main(screen, screenSize)
+    Main(screen, screenSize)
     
     

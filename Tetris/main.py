@@ -1,19 +1,30 @@
 import pygame
-import game
+
 import random
+
+# Use these imports when running the main program (not individual games)
+
+scorefilePath = "Tetris/scores.txt"
+
+import Tetris.menu as menu
+import Tetris.tutorial as tutorial
+import Tetris.scoreFunctions as scoreFunctions
+import Tetris.game as game
+ 
+"""
+# Use these imports when running the game individually
+
+scorefilePath = "scores.txt"
 
 import menu
 import tutorial
-import drawFunctions
 import scoreFunctions
+import game
+"""
 
-from coordinate import Coordinate
-
-
-
-def main(screen, screenSize):
-    fileName = "scores.txt"
-    highScores = scoreFunctions.LoadHighScores(fileName)
+def Main(screen, screenSize):
+    
+    highScores = scoreFunctions.LoadHighScores(scorefilePath)
 
     tryingToExit = False
     
@@ -30,7 +41,7 @@ def main(screen, screenSize):
             if score == None:
                 tryingToExit = True
             else:
-                scoreFunctions.UpdateHighScores(screen, screenSize, score, highScores, fileName)
+                scoreFunctions.UpdateHighScores(screen, screenSize, score, highScores, scorefilePath)
                 scoreFunctions.ShowScoreScreen(screen, screenSize, score, highScores)
                 
         else:

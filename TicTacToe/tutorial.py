@@ -2,7 +2,14 @@ import pygame
 import random
 import button
 
+# Use this import if running from base menu
+import TicTacToe.drawFunctions as drawFunctions
+
+"""
+# Use this import if running individually
 import drawFunctions
+"""
+
 name = "Novem Tic Tac Toe"
 
 def RunTutorial(screen, screenSize):

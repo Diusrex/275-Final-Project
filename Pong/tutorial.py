@@ -2,7 +2,14 @@ import pygame
 import random
 import button
 
+# Use this import if running from main menu
+import Pong.drawFunctions as drawFunctions
+
+"""
+Use these imports if only running this game.
+
 import drawFunctions
+"""
 
 name = "Pong"
 

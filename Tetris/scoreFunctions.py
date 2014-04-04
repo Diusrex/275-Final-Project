@@ -1,6 +1,14 @@
 import pygame
 import os
+
+# Use this import if running from base menu
+import Tetris.drawFunctions as drawFunctions
+
+
+"""
+# Use this import if running game individually
 import drawFunctions
+"""
 
 maxNumScores = 10
 maxNameSize = 10

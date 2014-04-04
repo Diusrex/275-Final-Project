@@ -2,7 +2,13 @@ import pygame
 import random
 import button
 
+# Use this import if running from base menu
+from Tetris.drawFunctions import WriteText, DisplayHighScores
+
+"""
+# Use this import if running the game individually
 from drawFunctions import WriteText, DisplayHighScores
+"""
 
 name = "Tetris"
 playText = "Play the Game"
