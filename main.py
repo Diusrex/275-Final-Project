@@ -2,6 +2,10 @@ import pygame
 import random
 
 import menu
+
+import Pong.main
+import Tetris.main
+import TicTacToe.main
     
 def main(screen, screenSize):
     tryingToExit = False
@@ -10,13 +14,13 @@ def main(screen, screenSize):
         decision = menu.RunMenu(screen, screenSize)
         
         if decision == menu.pongText:
-            pass
+            Pong.main.Main(screen, screenSize)
         
-        elif decision == menu.ticTacToeText:
-            pass
-            
         elif decision == menu.tetrisText:
-            pass
+            Tetris.main.Main(screen, screenSize)
+            
+        elif decision == menu.ticTacToeText:
+            TicTacToe.main.Main(screen, screenSize)
             
         else:
             tryingToExit = True

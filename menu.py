@@ -1,7 +1,9 @@
 import pygame
 import random
+
 import button
 
+# These are all of the names associated with this menu.
 name = "Mini Games"
 pongText = "Play Pong"
 ticTacToeText = "Play Novem Tic Tac Toe"
