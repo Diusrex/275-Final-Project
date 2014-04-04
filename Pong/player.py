@@ -1,10 +1,10 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    standardImage = pygame.image.load("basicPaddle.png")
+    standardImage = pygame.Surface((15, 60))
     
     # Is up, not moving, down
-    speed = (-10, 0, 10)
+    speed = (-30, 0, 30)
     
     def __init__(self, name, position, upKey, downKey):
         pygame.sprite.Sprite.__init__(self)
@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.downKey = downKey
         
         self.image = Player.standardImage
+        self.image.fill((255, 255, 255))
         
         self.rect = self.image.get_rect()
         
@@ -23,11 +24,9 @@ class Player(pygame.sprite.Sprite):
     def HandleKeyPress(self, keyId):
         if self.upKey == keyId:
             self.speed = Player.speed[0]
-            print("Changed Speed")
             
         elif self.downKey == keyId:
             self.speed = Player.speed[2]
-            print("Changed Speed")
             
     def HandleKeyRelease(self, keyId):
         if self.upKey == keyId:
@@ -36,7 +35,11 @@ class Player(pygame.sprite.Sprite):
         elif self.downKey == keyId:
             self.speed = Player.speed[1]
             
-    def update(self, timePassed):            
-        self.rect.move_ip(0, self.speed * timePassed / 50)
+    def update(self, timePassed, screenSize):            
+        self.rect.move_ip(0, self.speed * timePassed)
         
+        if self.rect.top < 0:
+            self.rect.top = 0
+        elif self.rect.bottom >= screenSize[1]:
+            self.rect.bottom = screenSize[1]
     

@@ -1,5 +1,12 @@
 import pygame
-import Calculations
+
+# Use this import and code if running from base menu
+import TicTacToe.calculations as calculations
+
+"""
+# Use this import if running this game individually
+import calculations
+"""
 
 class BoxContainer(pygame.sprite.Sprite):
     """
@@ -12,7 +19,7 @@ class BoxContainer(pygame.sprite.Sprite):
     self.status is the player this is owned by -> 0 means not owned by anyone
     """
     
-    notPressedImage = pygame.image.load('blank.png')    
+    notPressedImage = pygame.image.load('Assets/blank.png')    
     
     def __init__(self, position, spacing):
         """
@@ -79,7 +86,7 @@ class BoxContainer(pygame.sprite.Sprite):
                 # Check to see if the status could have been changed
                 if self.status == 0:
                     
-                    info = Calculations.CheckIfWin(self.ownedBy)
+                    info = calculations.CheckIfWin(self.ownedBy)
                     
                     if (info[0] != 0):
                         self.status = info[0]
@@ -98,8 +105,14 @@ class BoxContainer(pygame.sprite.Sprite):
         return None
         
     def Draw(self, screen):
+        """
+        Will draw all the squares inside of this box, and will draw the win line if there is one
+        """
         for pos in range(9):
             screen.blit(self.allSprites[pos], self.allPositions[pos])
             
         if (self.victoryLineStart != None):
             pygame.draw.line(screen, (0, 255, 0), self.victoryLineStart, self.victoryLineEnd, 5)
+    
+    def GetWinPositions(self, playerId):
+        return calculations.GetSpotsToWin(self.ownedBy, playerId)
