@@ -106,3 +106,6 @@ class BoxContainer(pygame.sprite.Sprite):
             
         if (self.victoryLineStart != None):
             pygame.draw.line(screen, (0, 255, 0), self.victoryLineStart, self.victoryLineEnd, 5)
+    
+    def GetWinPositions(self, playerId):
+        return calculations.GetSpotsToWin(self.ownedBy, playerId)
