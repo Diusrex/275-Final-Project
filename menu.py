@@ -28,23 +28,25 @@ def RunMenu(screen, screenSize):
     
     buttonGroup = pygame.sprite.Group()
     
-    # Want pong and tetris to be upper left/right, and tic tac toe to be lower middle
-    posY = 60
-    
-    CreateButtonAndAdd(buttonGroup, (100, posY), myfont, pongText)
-    
-    posY = 60
-    CreateButtonAndAdd(buttonGroup, (screenSize[0] - 150, posY), myfont, tetrisText)
-    
-    
     posY = 300
-    ticTacToeImage = pygame.image.load("TicTacToe_Main.png")
+    ticTacToeImage = pygame.image.load("Assets/TicTacToe_Main.png")
     ticTacToeRect = ticTacToeImage.get_rect()
     ticTacToeRect.center = (screenSize[0] // 2, posY)
     
-    posY = ticTacToeRect.bottom + 5
+    posY = ticTacToeRect.bottom + 30
     
-    CreateButtonAndAdd(buttonGroup, (ticTacToeRect.center[0], posY), myfont, ticTacToeText)
+    posY = CreateButtonAndAdd(buttonGroup, (ticTacToeRect.center[0], posY), myfont, ticTacToeText)
+    CreateButtonAndAdd(buttonGroup, (screenSize[0] // 2, posY + 20), myfont, exitText)
+    
+    
+    # This is to be centered within either side of the ticTacToe rect
+    xPos = (screenSize[0] - ticTacToeRect.width) / 4
+    CreateButtonAndAdd(buttonGroup, (xPos, screenSize[1] // 2), myfont, pongText)
+    
+    CreateButtonAndAdd(buttonGroup, (screenSize[0] - xPos, screenSize[1] // 2), myfont, tetrisText)
+    
+    
+    
     
     screen.blit(ticTacToeImage, ticTacToeRect)
     
@@ -72,14 +74,17 @@ def RunMenu(screen, screenSize):
                 return exitText
 
 
-def CreateButtonAndAdd(buttonGroup, position, font, text):
+def CreateButtonAndAdd(buttonGroup, centerPosition, font, text):
     """
-    Will create the wanted button, and will add it to the given buttonGroup
+    Will create the wanted button, and will add it to the given buttonGroup.
+    Will return the yPos immediately below the button
     """
     tempRenderedText = font.render(text, 50, (255,255,0))
     tempSize = font.size(text)
     
     buttonGroup.add(button.Button(
-                        position, 
+                        centerPosition, 
                         (tempSize[0] + 10, tempSize[1] + 10), 
                         text, tempRenderedText, tempSize))
+                        
+    return centerPosition[1] + (tempSize[1] + 10)
