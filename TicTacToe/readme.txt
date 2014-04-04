@@ -6,7 +6,7 @@ The Game:
     When a player plays in a box, the other player will then play in the section in the same position as that box
         ex: If I were to play in the top left box inside of a section (the specific section doesn't matter), the other player would then play within the top left section
     
-    If it is impossible for a player to play within a section due to it being full, then the other player can play in any of the sections.
+    If it is impossible for a player to play within a section due to it being full, then that player can play in any of the sections.
     
     To win a section, you must be the first one to get three boxes in a row, like in normal Tic Tac Toe. Winning a section is pernament, the other player cannot win it back.
     

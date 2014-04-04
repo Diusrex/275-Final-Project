@@ -11,6 +11,9 @@ import drawFunctions
 """
 
 name = "Novem Tic Tac Toe"
+backText = "Back"
+nextText = "Next"
+finishText = "Finish"
 
 def RunTutorial(screen, screenSize):
     """
@@ -18,52 +21,120 @@ def RunTutorial(screen, screenSize):
     
     Will return True if the user wanted to go to the menu, otherwise will return False (and thus wants to exit)
     """
-    # Only need to draw once, because the screen will not change after
-    screen.fill((0, 0, 0))
-    
+    pageNum = 1
     myfont = pygame.font.SysFont("monospace", 50)
     
+    while pageNum > 0 and pageNum < 3:
+        if pageNum == 1:
+            wanted = Page1(screen, screenSize, myfont)
+        
+        elif pageNum == 2:
+            wanted = Page2(screen, screenSize, myfont)
+        
+        if wanted == nextText:
+            pageNum += 1
+        elif wanted == backText:
+            pageNum -= 1
+        else:
+            return
+    
+    
+def Page1(screen, screenSize, myfont):
+    # Only need to draw once, because the screen will not change within this function
+    screen.fill((0, 0, 0))
     posY = 10
     
     posY = drawFunctions.WriteText(screen, screenSize, myfont, name, posY, True)
-    
-    posY += 100
+    posY += 20
     
     myfont = pygame.font.SysFont("monospace", 20)
     
     posY = drawFunctions.WriteText(screen, screenSize, myfont, "Rules for the game: ", posY, True)
     posY += 10
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "To score a point, the ball must hit the opposite wall from your paddle.", posY, False)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The game board is a large Tic Tac Toe board which consists of 9 mini Tic Tac Toe boards.", posY, False)
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The first player to score 7 points wins.", posY, False)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The mini Tic Tac Toe boards will be referred to as 'sections'", posY, True)
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The ball will slowly increase its speed, and will start in a random direction.", posY, False)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The spots inside of a mini Tic Tac Toe board will be called a box.", posY, True)
     
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The current box to play in will be shaded a darker color.", posY, True)
+    
+    ticTacToeImage = pygame.image.load("Assets/TicTacToe_Main.png")
+    ticTacToeRect = ticTacToeImage.get_rect()
+    ticTacToeRect.center = (screenSize[0] // 2, posY + ticTacToeRect.height // 2)
+    screen.blit(ticTacToeImage, ticTacToeRect)
+    posY += ticTacToeRect.height + 30
+    
+    return RunRestOfMenu(screen, screenSize, posY)
+    
+    
+def Page2(screen, screenSize, myfont):
+    # Only need to draw once, because the screen will not change within this function
+    screen.fill((0, 0, 0))
+    posY = 10
+    
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, name, posY, True)
     posY += 20
-    
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Controls for the game: ", posY, True)
-    
-    posY += 10
-    
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The first player (paddle on left) conrols their paddle with w and s.", posY, False)
-    
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The second player (paddle on right) conrols their paddle with left and right arrows.", posY, False)
-    
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "To exit, press exit", posY, False)
     
     myfont = pygame.font.SysFont("monospace", 20)
     
-    continueText = "Continue"
-    continueRenderedText = myfont.render(continueText, 50, (255,255,0))
-    continueSize = myfont.size(continueText)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "When a player plays in a box,", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "the other player will then play in the section in the same position as that box", posY, True)
+    posY += 10
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Example:", posY, True)
     
-    continueButton = button.Button(
-        (screenSize[0] // 2, posY + 20), 
-        (continueSize[0] + 10, continueSize[1] + 10), 
-        continueText, continueRenderedText, continueSize)
+    # Don't need to save the image after it is drawn to screen
+    ticTacToeImage = pygame.image.load("Assets/TicTacToe_HowPlayingWorks1.png")
+    ticTacToeRect = ticTacToeImage.get_rect()
+    ticTacToeRect.center = (screenSize[0] // 4, posY + ticTacToeRect.height // 2)
+    screen.blit(ticTacToeImage, ticTacToeRect)
     
-    screen.blit(continueButton.image, continueButton.rect)
+    
+    ticTacToeImage = pygame.image.load("Assets/TicTacToe_HowPlayingWorks2.png")
+    ticTacToeRect = ticTacToeImage.get_rect()
+    ticTacToeRect.center = (screenSize[0] // 2 + screenSize[0] // 4, posY + ticTacToeRect.height // 2)
+    screen.blit(ticTacToeImage, ticTacToeRect)
+    posY += ticTacToeRect.height + 30
+    
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "As can be seen...", posY, True)
+    
+    return RunRestOfMenu(screen, screenSize, posY + 15)
+                
+def RunRestOfMenu(screen, screenSize, posY):
+    myfont = pygame.font.SysFont("monospace", 25)
+    
+    nextRenderedText = myfont.render(nextText, 50, (255,255,0))
+    nextSize = myfont.size(nextText)
+    
+    backRenderedText = myfont.render(backText, 50, (255,255,0))
+    backSize = myfont.size(backText)
+    
+    
+    nextPos = ((screenSize[0] + backSize[0] + 20) // 2, posY) 
+    backPos = ((screenSize[0] - nextSize[0] - 20) // 2, posY)
+    
+    buttonGroup = pygame.sprite.Group()
+    
+    buttonGroup.add(button.Button(
+                        nextPos, 
+                        (nextSize[0] + 10, nextSize[1] + 10), 
+                        nextText, nextRenderedText, nextSize))
+    
+    buttonGroup.add(button.Button(
+                        backPos, 
+                        (backSize[0] + 10, backSize[1] + 10), 
+                        backText, backRenderedText, backSize))
+    
+    finishRenderedText = myfont.render(finishText, 50, (255, 255, 0))
+    finishSize = myfont.size(finishText)
+    
+    buttonGroup.add(button.Button(
+                        (screenSize[0] // 2, posY + 40), 
+                        (finishSize[0] + 10, finishSize[1] + 10), 
+                        finishText, finishRenderedText, finishSize))
+    
+    buttonGroup.draw(screen)
     
     pygame.display.flip()
     
@@ -75,14 +146,13 @@ def RunTutorial(screen, screenSize):
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 
-                value = continueButton.HandleMousePress(pos)
-                
-                if value != None:
-                    return True
+                for currentButton in buttonGroup.sprites():
+                    value = currentButton.HandleMousePress(pos)
+                    if value != None:
+                        return value
             
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                return False
+                return finishText
                 
             elif event.type == pygame.QUIT:
-                return False
-        
+                return finishText
