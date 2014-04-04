@@ -28,7 +28,7 @@ class Tile:
     flagImage = pygame.image.load("flag.png")
 
     # The font for numbers in tiles
-    font = pygame.font.SysFont("monospace", HEIGHT)
+    font = pygame.font.SysFont("monospace", HEIGHT, bold = True)
 
     def __init__(self, number):
         """
@@ -55,7 +55,7 @@ class Tile:
             screen.blit(Tile.shownImage, (x, y))
             if self.isMine():
                 screen.blit(Tile.mineImage, (x, y))
-            else:
+            elif self.number != 0:
                 screen.blit(self.text, (x, y))
 
     def isMine(self):
