@@ -6,11 +6,14 @@ import menu
 import Pong.main
 import Tetris.main
 import TicTacToe.main
+import MineSweeper.main
     
 def main(screen, screenSize):
     tryingToExit = False
     
     while not tryingToExit:
+        # resets the screensize between games
+        pygame.display.set_mode(screenSize)
         decision = menu.RunMenu(screen, screenSize)
         
         if decision == menu.pongText:
@@ -21,6 +24,9 @@ def main(screen, screenSize):
             
         elif decision == menu.ticTacToeText:
             TicTacToe.main.Main(screen, screenSize)
+
+        elif decision == menu.mineSweeperText:
+            MineSweeper.main.Main(screen, screenSize)
             
         else:
             tryingToExit = True

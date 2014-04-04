@@ -22,10 +22,10 @@ class Tile:
     pygame.init()
 
     # images for tiles
-    hiddenImage = pygame.image.load("hidden.png")
-    shownImage = pygame.image.load("shown.png")
-    mineImage = pygame.image.load("mine.png")
-    flagImage = pygame.image.load("flag.png")
+    hiddenImage = pygame.image.load("MineSweeper/hidden.png")
+    shownImage = pygame.image.load("MineSweeper/shown.png")
+    mineImage = pygame.image.load("MineSweeper/mine.png")
+    flagImage = pygame.image.load("MineSweeper/flag.png")
 
     # The font for numbers in tiles
     font = pygame.font.SysFont("monospace", HEIGHT, bold = True)

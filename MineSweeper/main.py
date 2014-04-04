@@ -1,13 +1,20 @@
+"""
 import pygame
 from pygame.locals import *
-from Tile import Tile
+from tile import Tile
+import random
+"""
+
+import pygame
+from pygame.locals import *
+from MineSweeper.tile import Tile
 import random
 
 # Whenever storing 2d data in a 1d array, stores as y * 3 + x
     # So x = pos % 3, y = pos // 3
 
     
-def main(screen, size):
+def Main(screen, size):
     wantsToExit = False
     
     font = pygame.font.SysFont("monospace", 12, bold = True)
@@ -202,13 +209,15 @@ def reveal(board, x, y):
             revealAdjacent = True
 
         # reveals adjacent tiles
-        # this should never return true, so there
-        # is no need to check
+        # returns True if any mines are found
         if revealAdjacent:
+            mines = False
             for xi in (-1, 0, 1):
                 for yi in (-1, 0, 1):
                     if (xi, yi) != (0, 0) and board[x+xi][y+yi].hidden:
-                        reveal(board, x + xi, y + yi)
+                        mines = mines or reveal(board, x + xi, y + yi)
+            return mines
+
     except IndexError:
         pass
 
