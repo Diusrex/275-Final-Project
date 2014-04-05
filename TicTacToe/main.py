@@ -42,6 +42,10 @@ def Main(screen, screenSize):
             
             if winner == None:
                 tryingToExit = True
+                
+            elif winner == game.tieStatus:
+                ShowTieScreen(screen, screenSize)
+                
             else:
                 ShowWinScreen(screen, screenSize, winner)
             
@@ -52,7 +56,7 @@ def RunGame(screen, screenSize, decision):
     playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
     
     if decision == menu.twoPlayerText:
-        playerTwo = player.HumanPlayer("Player two", 1, pygame.image.load('Assets/oPressed.png'))
+        playerTwo = player.HumanPlayer("Player two", 2, pygame.image.load('Assets/oPressed.png'))
         
     else:
         return None
@@ -60,14 +64,15 @@ def RunGame(screen, screenSize, decision):
     theGame = game.Game(playerOne, playerTwo, screenSize)
     
     return theGame.Run(screen, screenSize)
-                    
+                
+                
 def ShowWinScreen(screen, screenSize, winner):
     """
     screen should already have the background set up
     """
     myfont = pygame.font.SysFont("monospace", 30)
     
-    posY = 20
+    posY = 30
     posY = drawFunctions.WriteText(screen, screenSize, myfont, "Congratulations " + winner + " you have won!", posY, True)
     
     myfont = pygame.font.SysFont("monospace", 15)
@@ -83,6 +88,31 @@ def ShowWinScreen(screen, screenSize, winner):
             if event.type == pygame.KEYDOWN:
                 return
 
+                
+                
+def ShowTieScreen(screen, screenSize):
+    """
+    screen should already have the background set up
+    """
+    myfont = pygame.font.SysFont("monospace", 30)
+    
+    posY = 30
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Well that is unfortunate, no one may play, and thus the game is a tie.", posY, True)
+    
+    myfont = pygame.font.SysFont("monospace", 15)
+    
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
+    
+    pygame.display.flip()
+    
+    while True:
+        ev = pygame.event.get()
+
+        for event in ev:
+            if event.type == pygame.KEYDOWN:
+                return
+                
+                
 if __name__ == "__main__":
     pygame.init()
     screenSize = (1024, 650)

@@ -77,42 +77,47 @@ class Section(pygame.sprite.Sprite):
         """
         return 0 in self.ownedBy
         
-    def HandleClicked(self, mousePos, player):
+    def HandleClicked(self, mousePos):
         """
         Will handle determining if the player pressed one of the boxes. 
-        If the player changed a box, will return a tuple containing:
-            0: This entities status
-            1: The box to use
+        If the player is able to change a box, will return the pos of that box
             
         Otherwise, will return None
+        
+        Warning, can return 0, so need to check for if the value isn't None
         """
         for pos in range(9):
             if (self.allPositions[pos].collidepoint(mousePos) and (self.ownedBy[pos] == 0)):
-                self.allSprites[pos] = player.image
-                self.ownedBy[pos] = player.id
-                
-                # Check to see if the status could have been changed
-                if self.status == 0:
-                    
-                    info = calculations.CheckIfWin(self.ownedBy)
-                    
-                    if (info != None):
-                        # Know that this player was the one who just won this box
-                        self.status = player.id
-                        
-                        startBox = info[0]
-                        endBox = info[1]
-                        
-                        self.victoryLineStart = self.allPositions[startBox].center
-                        self.victoryLineEnd = self.allPositions[endBox].center
-                        
-                # The player changed a box
-                return (self.status, pos)
-      
-                
+                return pos
         
         return None
+    
+    def AssignBoxToPlayer(self, boxPos, player):
+        """
+        Will update the changed box, and this section, will information needed
         
+        Will then return the status (who controls the box) of this section
+        """
+        self.allSprites[boxPos] = player.image
+        self.ownedBy[boxPos] = player.id
+        
+        # Check to see if the status could have been changed (cant if it isn't 0)
+        if self.status == 0:
+            
+            info = calculations.CheckIfWin(self.ownedBy)
+            
+            if (info != None):
+                # Know that this player was the one who just won this box
+                self.status = player.id
+                
+                startBox = info[0]
+                endBox = info[1]
+                
+                self.victoryLineStart = self.allPositions[startBox].center
+                self.victoryLineEnd = self.allPositions[endBox].center
+                
+        return self.status
+                
     def Draw(self, screen):
         """
         Will draw all the boxes inside of this Section, and will draw the win line if there is one
@@ -123,5 +128,3 @@ class Section(pygame.sprite.Sprite):
         if (self.victoryLineStart != None):
             pygame.draw.line(screen, (0, 255, 0), self.victoryLineStart, self.victoryLineEnd, 5)
     
-    def GetWinPositions(self, playerId):
-        return calculations.GetSpotsToWin(self.ownedBy, playerId)

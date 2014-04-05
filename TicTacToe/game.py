@@ -21,6 +21,7 @@ from positionInfo import PositionInfo
   
 """
 
+tieStatus = "Tie"
 
     
 class Game:
@@ -29,7 +30,7 @@ class Game:
         _players stores the two player classes
         _spacer is the space separating sections
         _currentIdentifier is the grey box that is drawn over the current box to be placed in
-        _allSectionContainers stores all of the sections.
+        _allSections stores all of the sections.
         _allSectionOwners stores who owns which section. If is not owned, will be 0
         _positionInfo stores general position info about the board
         
@@ -61,17 +62,17 @@ class Game:
         """
         
         # This information will be added to self later in this function, just reduces typing
-        allSectionContainers = []
+        allSections = []
         allSectionOwners = []
         
         positionInfo = PositionInfo(xStart, yStart)
         
         for y in range(3):
             for x in range(3):
-                allSectionContainers.append(section.Section((positionInfo.startPosX[x],  positionInfo.startPosY[y]), miniSpacer))
+                allSections.append(section.Section((positionInfo.startPosX[x],  positionInfo.startPosY[y]), miniSpacer))
                 
                 
-                tempRect = allSectionContainers[-1].GetBottomRight()
+                tempRect = allSections[-1].GetBottomRight()
                 
                 # This sets up the information for later boxes, so the position doesn't need to be calculated each time.
                     # Is also used later for drawing the overlay
@@ -97,7 +98,7 @@ class Game:
         positionInfo.lineSideStartY.pop()
         
         
-        self._allSectionContainers = allSectionContainers
+        self._allSections = allSections
         self._allSectionOwners = allSectionOwners
         self._positionInfo = positionInfo
         
@@ -115,18 +116,37 @@ class Game:
         self.Draw(screen, screenSize, self._players[currentPlayer], currentSection)
         
         while True:
-            chosen = self._players[currentPlayer].ChoosePosition(self._allSectionContainers, self._allSectionOwners, currentSection)
+            # Checking to see if any section can be placed in
+            if self.GameIsTie():
+                return tieStatus
+            
+            chosen = self._players[currentPlayer].ChoosePosition(self._allSections, self._allSectionOwners, currentSection, self._players[1 - currentPlayer].id)
             
             # The user wanted to exit (so no need to redraw)
             if chosen == None:
                 return None
+            
+            
+            changedSection = chosen[0]
+            boxChanged = chosen[1]
+            
+            newStatus = self._allSections[changedSection].AssignBoxToPlayer(boxChanged, self._players[currentPlayer])
+            
+            # The new section relates to the box that was changed
+            currentSection = boxChanged
+            
+            
+            # Update allSectionOwners (may remain 0). Does not use the old currentSection, because the player may have been able to place anywhere
+            self._allSectionOwners[changedSection] = newStatus
+            
+            print("Information:")
+            for section in self._allSections:
+                print(section.GetOwnedBy())
                 
-            # Uses chosen[1], because currentSection will be updated later
-            self.Draw(screen, screenSize, self._players[currentPlayer], chosen[1])
+            #print(self._allSectionOwners)
             
-            # Assign the owner of the box to allOwners
-            self._allSectionOwners[currentSection] = chosen[0]
-            
+            # Needs to draw information for the next player, but won't update currentPlayer for if someone won
+            self.Draw(screen, screenSize, self._players[1 - currentPlayer], currentSection)
             
             winner = calculations.CheckIfWin(self._allSectionOwners)
             
@@ -135,9 +155,9 @@ class Game:
                 startBoxNum = winner[0]
                 endBoxNum = winner[1]
                 
-                startPos = self._allSectionContainers[startBoxNum].GetCenter()
+                startPos = self._allSections[startBoxNum].GetCenter()
                
-                endPos = self._allSectionContainers[endBoxNum].GetCenter()
+                endPos = self._allSections[endBoxNum].GetCenter()
                 
                 pygame.draw.line(screen, (0, 255, 0), startPos, endPos, 15)
                 
@@ -147,14 +167,19 @@ class Game:
             # Update the information for the next run
             currentPlayer = 1 - currentPlayer
                 
-            currentSection = chosen[1]
+    def GameIsTie(self):
+        for section in self._allSections:
+            if section.CanBeClickedIn():
+                return False
+        
+        return True
         
     def Draw(self, screen, screenSize, thePlayer, currentSection):
         screen.fill((0, 0, 0))
-        drawFunctions.DrawBoxesAndLinesToScreen(screen, self._allSectionContainers, self._positionInfo, self._spacer)
+        drawFunctions.DrawBoxesAndLinesToScreen(screen, self._allSections, self._positionInfo, self._spacer)
         drawFunctions.DrawCurrentPlayer(screen, thePlayer)
         
-        if self._allSectionContainers[currentSection].CanBeClickedIn():
+        if self._allSections[currentSection].CanBeClickedIn():
             screen.blit(self._currentIdentifier, (self._positionInfo.startPosX[currentSection %3], self._positionInfo.startPosY[currentSection//3]))
         
         pygame.display.flip()

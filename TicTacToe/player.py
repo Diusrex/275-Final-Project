@@ -1,4 +1,6 @@
 import pygame
+import math
+import random
 
 class Player:
     def __init__(self, name, id, image):
@@ -14,7 +16,7 @@ class Player:
         self.image = image
         self.id = id
     
-    def ChoosePosition(self, allSectionContainers, allSectionOwners, currentSection):
+    def ChoosePosition(self, allSectionContainers, allSectionOwners, currentSection, otherId):
         """
         This is a virtual function.
         
@@ -23,6 +25,13 @@ class Player:
         Otherwise the user wants to quit, and will return None.
         
         When calling, do not copy the boxesInformation, that can be done later if this classes wants to do so
+        
+        If the program is to quit, will return none
+        
+        Otherwise, will return a tuple containing:
+            0: The section that was altered
+            1: The box changed
+            
         """
         raise NotImplementedError
         
@@ -30,7 +39,7 @@ class HumanPlayer(Player):
     def __init__(self, name, id, image):
         super().__init__(name, id, image)
         
-    def ChoosePosition(self, allSectionContainers, allSectionOwners, currentSection):
+    def ChoosePosition(self, allSections, allSectionOwners, currentSectionNum, otherId):
         """
         Will just wait until the user presses on a valid position
         """
@@ -42,20 +51,20 @@ class HumanPlayer(Player):
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     
-                    # if it was a valid press, input will be a tuple containing (boxStatus, boxPressedIn)
-                    if (allSectionContainers[currentSection].CanBeClickedIn()):
-                        input = allSectionContainers[currentSection].HandleClicked(pos, self)
-                    
+                    # If it was a valid press, input will be a tuple containing (boxStatus, boxPressedIn)
+                    if (allSections[currentSectionNum].CanBeClickedIn()):
+                        boxChanged = allSections[currentSectionNum].HandleClicked(pos)
+                        
+                        if boxChanged != None:
+                            return (currentSectionNum, boxChanged)
+                        
                     # It is possible that it is impossible to place in current box, in which case any box is valid
                     else:
-                        for section in allSectionContainers:
-                            temp = section.HandleClicked(pos, self)
-                            if temp != None:
-                                input = temp
+                        for sectionPos in range(9):
+                            boxChanged = allSections[sectionPos].HandleClicked(pos)
+                            if boxChanged != None:
+                                return (sectionPos, boxChanged)
                     
-                    
-                    if input != None:
-                        return input
                         
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
