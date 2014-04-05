@@ -8,7 +8,7 @@ class PositionInfo:
         self.startPosX = [startX, -1, -1, -1]
         self.startPosY = [startY, -1, -1, -1]
         
-        # The third value in these is just for ease, will be removed
+        # The third value in these is just for ease, will be removed within CreateBoxes
         self.lineSideStartX = [-1, -1, -1]
         self.lineSideStartY = [-1, -1, -1]
         

@@ -1,6 +1,8 @@
+The game consists of a large Tic Tac Toe board which will consist of 9 mini Tic Tac Toe boards. The mini Tic Tac Toe boards will be referred to as 'sections', while the spots inside of a mini Tic Tac Toe board will be called a box.
+    This naming is also used within the code
+    
 The Game:
     (There is also a description with pictures inside of the game itself)
-    The game consists of a large Tic Tac Toe board which will consist of 9 mini Tic Tac Toe boards. The mini Tic Tac Toe boards will be referred to as 'sections', while the spots inside of a mini Tic Tac Toe board will be called a box.
     
     The first player starts playing in the center section.
     When a player plays in a box, the other player will then play in the section in the same position as that box

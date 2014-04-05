@@ -8,7 +8,7 @@ import TicTacToe.calculations as calculations
 import calculations
 """
 
-class BoxContainer(pygame.sprite.Sprite):
+class Section(pygame.sprite.Sprite):
     """
     Will hold a 3 by 3 grid of boxes. Will not draw lines for itself
     
@@ -31,7 +31,7 @@ class BoxContainer(pygame.sprite.Sprite):
         
         self.current = False
         
-       
+        
         self.status = 0
         
         self.allSprites = []
@@ -42,19 +42,27 @@ class BoxContainer(pygame.sprite.Sprite):
         self.victoryLineStart = None
         self.victoryLineEnd = None
         
-        rect = BoxContainer.notPressedImage.get_rect()
+        rect = Section.notPressedImage.get_rect()
         
         # Goes through creating each box
         for yPos in range(3):
             for xPos in range(3):
-                self.allSprites.append(BoxContainer.notPressedImage)
+                self.allSprites.append(Section.notPressedImage)
                 
                 currentRect = rect.move(position[0] + rect.width * xPos + spacing * xPos, position[1] + rect.height * yPos + spacing * yPos)
                 self.allPositions.append(currentRect)
                 
                 self.ownedBy.append(0)
         
-   
+    
+    def GetOwnedBy(self):
+        """
+        This function is to ONLY be used by the ai. It will make it far easier to use minimax, because the entire Section will not need to be copied.
+        
+        Will return a copy of the list of which box is owned by who.
+        """
+        return list(self.ownedBy)
+        
     def GetCenter(self):
         middleRect = self.allPositions[4]
         return middleRect.center
@@ -65,7 +73,7 @@ class BoxContainer(pygame.sprite.Sprite):
     
     def CanBeClickedIn(self):
         """
-        Will return if any of these boxes haven't been placed in
+        Will return if any of any boxes haven't been placed in
         """
         return 0 in self.ownedBy
         
@@ -88,11 +96,12 @@ class BoxContainer(pygame.sprite.Sprite):
                     
                     info = calculations.CheckIfWin(self.ownedBy)
                     
-                    if (info[0] != 0):
-                        self.status = info[0]
+                    if (info != None):
+                        # Know that this player was the one who just won this box
+                        self.status = player.id
                         
-                        startBox = info[1][0]
-                        endBox = info[1][1]
+                        startBox = info[0]
+                        endBox = info[1]
                         
                         self.victoryLineStart = self.allPositions[startBox].center
                         self.victoryLineEnd = self.allPositions[endBox].center
@@ -106,7 +115,7 @@ class BoxContainer(pygame.sprite.Sprite):
         
     def Draw(self, screen):
         """
-        Will draw all the squares inside of this box, and will draw the win line if there is one
+        Will draw all the boxes inside of this Section, and will draw the win line if there is one
         """
         for pos in range(9):
             screen.blit(self.allSprites[pos], self.allPositions[pos])

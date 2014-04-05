@@ -3,7 +3,8 @@ import random
 import button
 
 name = "Novem Tic Tac Toe"
-playText = "Play the Game"
+twoPlayerText = "Two Players"
+onePlayerText = "One Player"
 tutorialText = "How to Play"
 exitText = "Exit"
 
@@ -57,13 +58,23 @@ def CreateButtons(posY, screenSize):
     
     myfont = pygame.font.SysFont("monospace", 25)
     
-    tempRenderedText = myfont.render(playText, 50, (255,255,0))
-    tempSize = myfont.size(playText)
+    tempRenderedText = myfont.render(twoPlayerText, 50, (255,255,0))
+    tempSize = myfont.size(twoPlayerText)
     
     buttonGroup.add(button.Button(
                         (screenSize[0] //2, posY), 
                         (tempSize[0] + 10, tempSize[1] + 10), 
-                        playText, tempRenderedText, tempSize))
+                        twoPlayerText, tempRenderedText, tempSize))
+    
+    posY += tempSize[1] + 60
+    
+    tempRenderedText = myfont.render(onePlayerText, 50, (255,255,0))
+    tempSize = myfont.size(onePlayerText)
+    
+    buttonGroup.add(button.Button(
+                        (screenSize[0] //2, posY), 
+                        (tempSize[0] + 10, tempSize[1] + 10), 
+                        onePlayerText, tempRenderedText, tempSize))
     
     posY += tempSize[1] + 60
     

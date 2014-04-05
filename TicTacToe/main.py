@@ -8,6 +8,8 @@ import TicTacToe.tutorial as tutorial
 
 import TicTacToe.drawFunctions as drawFunctions
 
+import TicTacToe.player as player
+
 """
 # Use these imports when running the game individually
 import menu
@@ -15,6 +17,8 @@ import game
 import tutorial
 
 import drawFunctions
+
+import player
 """
 
 
@@ -33,8 +37,8 @@ def Main(screen, screenSize):
         if decision == menu.tutorialText:
             tutorial.RunTutorial(screen, screenSize)
         
-        elif decision == menu.playText:
-            winner = game.RunGame(screen, screenSize)
+        elif decision == menu.twoPlayerText or decision == menu.onePlayerText:
+            winner = RunGame(screen, screenSize, decision)
             
             if winner == None:
                 tryingToExit = True
@@ -44,7 +48,18 @@ def Main(screen, screenSize):
         else:
             tryingToExit = True
 
-
+def RunGame(screen, screenSize, decision):
+    playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
+    
+    if decision == menu.twoPlayerText:
+        playerTwo = player.HumanPlayer("Player two", 1, pygame.image.load('Assets/oPressed.png'))
+        
+    else:
+        return None
+    
+    theGame = game.Game(playerOne, playerTwo, screenSize)
+    
+    return theGame.Run(screen, screenSize)
                     
 def ShowWinScreen(screen, screenSize, winner):
     """
