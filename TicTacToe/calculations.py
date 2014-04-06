@@ -1,4 +1,3 @@
-
 def CheckIfWin(owners):
     """
     This function will work for both checking for winner among sections, and winner among boxes.
@@ -43,10 +42,17 @@ def CheckIfWin(owners):
     
     return None
     
+    
+    
+    
+    
 def SectionCanBePlaced(boxes):
     return (0 in boxes)
 
 
+    
+    
+    
 def GetAllCanBePlacedIn(boxes):
     """
     The reason why this function does not belong to section is because the sections are not used within the AiPlayer function recursively, due to too high copy costs
@@ -58,6 +64,10 @@ def GetAllCanBePlacedIn(boxes):
     
     return toReturn
 
+    
+    
+    
+    
 def NumberInRow(boxesOwners, id, startBox, boxIncrease):
     """
     Will return the number of boxes in this row that the same as the id. Should not include added box.
@@ -73,41 +83,51 @@ def NumberInRow(boxesOwners, id, startBox, boxIncrease):
             return 0
             
     return number
-            
-def CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, startBox, boxIncrease):
+
+    
+    
+    
+    
+class OccuranceInfo:
+    """
+    Will store information about how many there are in a row, and how many a pos will block
+    
+    ThreeInRow is not a count because it doesn't matter
+    """
+    def __init__(self):
+        self.threeInRow = False
+        self.twoLineCount = 0
+        self.blocksTwoLineCount = 0
+
+        
+        
+        
+        
+def CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, startBox, boxIncrease):
     """
     Will be used by calculatePlacedScore
     
-    Will calculate the number of blocked and number of created lines over the given increase, and return them
+    Will calculate the number of blocked and number of created lines over the given increase, and store the information in occuranceInfo
     """
     
     temp = NumberInRow(boxesOwners, id, startBox, boxIncrease) + countIncrease
     
     if temp == 3:
-        threeInRow = True
+        occuranceInfo.threeInRow = True
     
     if temp == 2:
-        twoLine = True
+        occuranceInfo.twoLineCount += 1
     
     temp = NumberInRow(boxesOwners, otherId, startBox, boxIncrease)
     
     if temp == 2:
-        blocksTwoLine = True
-     
-    return threeInRow, twoLine, blocksTwoLine
+        occuranceInfo.blocksTwoLineCount += 1
     
 
-winGameScore = 1000
-winSectionScore = 20
-
-makeTwoLineScore = 5
-blockTwoLineScore = 3
-
-placedMiddleScore = 0
-placedCornerScore = 0
 
 
-def CalculateBoxScore(sectionOwners, sectionPos, boxesOwners, boxPos, id, otherId, multiplier, aboveScore):
+
+def CalculateBoxScore(sectionOwners, sectionPos, boxesOwners, boxPos, id, otherId, multiplier, aboveScore, boxScoring):
     """
     This will calculate the score based on the following:
         1) If it wins this section score will be:
@@ -129,116 +149,260 @@ def CalculateBoxScore(sectionOwners, sectionPos, boxesOwners, boxPos, id, otherI
         countIncrease = 1
     else:
         countIncrease = 0
-        
-    threeInRow = False
-    twoLine = False
-    blocksTwoLine = False
+    
+    occuranceInfo = OccuranceInfo()
     
     score = 0
     
-
-    if boxPos == 0:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 3)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 4)
-        
-        score += placedCornerScore
-    
-    
-    elif boxPos == 1:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 1, 3)
-    
-    elif boxPos == 2:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 3)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 2)
-        
-        score += placedCornerScore
-        
-    elif boxPos == 3:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 3, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 3)
-
-        
-    elif boxPos == 4:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 3, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 1, 3)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 4)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 2)
-        
-        score += placedMiddleScore
-        
-    elif boxPos == 5:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 3, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 3)
-        
-    elif boxPos == 6:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 6, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 3)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 2)
-        
-        score += placedCornerScore
-    
-    elif boxPos == 7:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 6, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 1, 3)
-    
-    elif boxPos == 8:
-        # All of the lines from this guy
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 6, 1)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 2, 3)
-        threeInRow, twoLine, blocksTwoLine = CalculateAllWanted(boxesOwners, countIncrease, threeInRow, twoLine, blocksTwoLine, id, otherId, 0, 4)
-        
-        score += placedCornerScore
-    
-    
-    
-    # The only benefit to playing, is when this section is not owned, otherwise there is no point
+    # Only time that setting up rows and such matters
     if sectionOwners[sectionPos] == 0:
-        output = ""
-        if threeInRow:
+        # This is for determining how important the current boxPos is within the section, based on if there are any three in a rows and such
+            # I really wish python had switch statements...
+        # increase of 1 is horizontal, increase of 3 is vertical, increase of 2 or 4 a different diagonals
+        if boxPos == 0:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            score += boxScoring.placedCornerScore
+        
+        
+        elif boxPos == 1:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            score += boxScoring.placedOtherScore
+        
+        elif boxPos == 2:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += boxScoring.placedCornerScore
+            
+        elif boxPos == 3:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            score += boxScoring.placedOtherScore
+
+            
+        elif boxPos == 4:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += boxScoring.placedMiddleScore
+            
+        elif boxPos == 5:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            score += boxScoring.placedOtherScore
+            
+        elif boxPos == 6:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += boxScoring.placedCornerScore
+        
+        elif boxPos == 7:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            score += boxScoring.placedOtherScore
+        
+        elif boxPos == 8:
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            score += boxScoring.placedCornerScore
+
+        if occuranceInfo.threeInRow:
             sectionOwners[sectionPos] = id
             wins = CheckIfWin(sectionOwners)
             sectionOwners[sectionPos] = 0
             
-            output += "Three in a row,"
+
             if wins:
-                score += winGameScore
+                score += boxScoring.winGameScore
             else:
-                score += winSectionScore
+                score += boxScoring.winSectionScore
         
-        if twoLine:
-            output += "Two in a row,"
-            score += makeTwoLineScore
+        
+        score += boxScoring.makeTwoLineScore * occuranceInfo.twoLineCount
             
-        if blocksTwoLine:
-            output += "Block"
-            score += blockTwoLineScore
-        
-        #print(output)
-    else:
-        score = 0   
+
+        score += boxScoring.blockTwoLineScore * occuranceInfo.blocksTwoLineCount   
     
     return score * multiplier + aboveScore
     
     
     
-def CalculateSectionScore(allSectionOwners, sectionPosition, multiplier, aboveScore):
+    
+
+
+def CanBeWon(owners, otherId):
+    """
+    Will calculate if there is at least one line that does not contain other's id.
+    """
+    # Horizontal
+    if owners[0] != otherId and owners[1] != otherId and owners[2] != otherId:
+        return True
+        
+    if owners[3] != otherId and owners[4] != otherId and owners[5] != otherId:
+        return True
+        
+    if owners[6] != otherId and owners[7] != otherId and owners[8] != otherId:
+        return True
+    
+    # Vertical
+    if owners[0] != otherId and owners[3] != otherId and owners[6] != otherId:
+        return True
+    
+    if owners[1] != otherId and owners[4] != otherId and owners[7] != otherId:
+        return True
+        
+    if owners[2] != otherId and owners[5] != otherId and owners[8] != otherId:
+        return True
+    
+    # Diagonal
+    if owners[0] != otherId and owners[4] != otherId and owners[8] != otherId:
+        return True
+        
+    if owners[2] != otherId and owners[4] != otherId and owners[6] != otherId:
+        return True
+        
+    # All contain at least 1
+    return False
+    
+def CalculateSectionScore(allSectionOwners, sectionPosition, boxesOwners, id, otherId, multiplier, aboveScore, sectionScoring):
+    """
+    This function will determine the score of the current section. 
+    
+    """
     score = 0
     
+    # Don't want to play in a section that is owned by someone else
     if allSectionOwners[sectionPosition] != 0:
-        score -= 4
+        score -= sectionScoring.unableToEffectGameScore
     
-    # If cannot win off of this section, should also decrease
-    # If can deny enemy with this section, should increase
+    elif not CanBeWon(boxesOwners, otherId):
+        score -= sectionScoring.unableToEffectGameScore
+    
+    else:
+        countIncrease = 1
+        
+        occuranceInfo = OccuranceInfo()
+        
+        # This is for determining how important the current section is within the game, based on how many allied sections create a line with it, and how many it other sections it can block
+            # I really wish python had switch statements...
+        # increase of 1 is horizontal, increase of 3 is vertical, increase of 2 or 4 a different diagonals
+        if sectionPosition == 0:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            score += sectionScoring.ownCornerScore
+        
+        elif sectionPosition == 1:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            score += sectionScoring.ownOtherScore
+        
+        elif sectionPosition == 2:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += sectionScoring.ownCornerScore
+            
+        elif sectionPosition == 3:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            score += sectionScoring.ownOtherScore
+
+            
+        elif sectionPosition == 4:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += sectionScoring.ownMiddleScore
+            
+            
+        elif sectionPosition == 5:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            score += sectionScoring.ownOtherScore
+            
+            
+        elif sectionPosition == 6:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 3)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
+            
+            score += sectionScoring.ownCornerScore
+        
+        
+        elif sectionPosition == 7:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
+            
+            score += sectionScoring.ownOtherScore
+        
+        
+        elif sectionPosition == 8:
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 6, 1)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 3)
+            
+            CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 4)
+            
+            score += sectionScoring.ownCornerScore
+        
+        
+        if occuranceInfo.threeInRow:
+            score += sectionScoring.mayWinImmediately
+        
+        score += sectionScoring.makeTwoLineScore * occuranceInfo.twoLineCount
+            
+
+        score += sectionScoring.blockTwoLineScore * occuranceInfo.blocksTwoLineCount   
     
     return score * multiplier + aboveScore

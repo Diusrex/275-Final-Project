@@ -118,17 +118,22 @@ def SemiRandomPicker(possibleItems):
 class AIPlayerMiniMax(Player):
     """
     This player will use a varient of the MiniMax method
+    
+    A more complete description can be found in the readme in this directory.
     """
-    def __init__(self, name, id, image, maxDepth, takeBest):
+    def __init__(self, name, id, image,  currentMaxDepth, absoluteMaxDepth, boxScoring, sectionScoring, takeBest):
         """
         maxDepth is how deep this player will check
         overtime, the maxDepth will slowly increase, based on the count and increaseThreshold
         """
         super().__init__(name, id, image)
-        self.maxDepth = maxDepth
+        self.maxDepth = currentMaxDepth
+        self.absoluteMaxDepth = absoluteMaxDepth
         self.takeBest = takeBest
         self.count = 0
         self.increaseThreshold = 12
+        self.boxScoring = boxScoring
+        self.sectionScoring = sectionScoring
     
     def ChoosePosition(self, allSections, allSectionOwners, sectionPosition, otherId):
         """
@@ -139,11 +144,9 @@ class AIPlayerMiniMax(Player):
             2: The box changed
         """
         self.count += 1
-        if self.count >= self.increaseThreshold:
+        if self.count >= self.increaseThreshold and self.maxDepth < self.absoluteMaxDepth:
             self.count = 0
             self.maxDepth += 1
-            # Decrease the threshold due to the decreasing complexity
-            self.increaseThreshold -= 2
             
         # Makes it easy to know who is going
         currentPlayer = 0
@@ -205,7 +208,7 @@ class AIPlayerMiniMax(Player):
         If it shouldn't end, will sreverse the currentPlayer, and call CalculateSectionScore on the section that would be moved to from selecting this box. 
         """
         score = calculations.CalculateBoxScore(allSectionOwners, sectionPosition, allSectionBoxOwners[sectionPosition], boxPosition, ids[currentPlayer], ids[1
- - currentPlayer], multipliers[currentPlayer], aboveScore)
+ - currentPlayer], multipliers[currentPlayer], aboveScore, self.boxScoring)
         
         #print("Section %d box %d, score of %d (above of %d) and multiplier of %d" % (sectionPosition, boxPosition, score, aboveScore, multipliers[currentPlayer]))
         
@@ -250,7 +253,7 @@ class AIPlayerMiniMax(Player):
         scores = []
         
         if calculations.SectionCanBePlaced(allSectionBoxOwners[sectionPosition]):
-            sectionScore = calculations.CalculateSectionScore(allSectionOwners, sectionPosition, multipliers[currentPlayer], aboveScore)
+            sectionScore = calculations.CalculateSectionScore(allSectionOwners, sectionPosition, allSectionBoxOwners[sectionPosition], ids[currentPlayer], ids[1 - currentPlayer], multipliers[currentPlayer], aboveScore, self.sectionScoring)
 
             allPossibleBoxes = calculations.GetAllCanBePlacedIn(allSectionBoxOwners[sectionPosition])
             
@@ -262,6 +265,7 @@ class AIPlayerMiniMax(Player):
         else:
             # Can be placed anywhere
             for section in range(9):
+                # Need to make sure that they may be placed in before, otherwise would create an infinite loop
                 if calculations.SectionCanBePlaced(allSectionBoxOwners[section]):
                     scores.append(self.CalculateSectionScore(allSectionOwners, allSectionBoxOwners, section, currentPlayer, ids, multipliers, decisionSelectors, aboveScore, depth))
         

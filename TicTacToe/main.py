@@ -10,6 +10,8 @@ import TicTacToe.drawFunctions as drawFunctions
 
 import TicTacToe.player as player
 
+import TicTacToe.calculationsScoring as calculationsScoring
+
 """
 # Use these imports when running the game individually
 import menu
@@ -19,6 +21,8 @@ import tutorial
 import drawFunctions
 
 import player
+
+mport calculationsScoring
 """
 
 
@@ -51,15 +55,16 @@ def Main(screen, screenSize):
             
         else:
             tryingToExit = True
-
+            
 def RunGame(screen, screenSize, decision):
-    playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
+    
+    playerOne = player.AIPlayerMiniMax("Player one", 1, pygame.image.load('Assets/xPressed.png'), 3, 5, calculationsScoring.defaultBoxScoring, calculationsScoring.defaultSectionScoring, True)
     
     if decision == menu.twoPlayerText:
         playerTwo = player.HumanPlayer("Player two", 2, pygame.image.load('Assets/oPressed.png'))
         
     else:
-        playerTwo = player.AIPlayerMiniMax("Player two", 2, pygame.image.load('Assets/oPressed.png'), 3, True)
+        playerTwo = player.AIPlayerMiniMax("Player two", 2, pygame.image.load('Assets/oPressed.png'), 3, 5, calculationsScoring.defaultBoxScoring, calculationsScoring.defaultSectionScoring, False)
     
     theGame = game.Game(playerOne, playerTwo, screenSize)
     
@@ -97,7 +102,7 @@ def ShowTieScreen(screen, screenSize):
     myfont = pygame.font.SysFont("monospace", 30)
     
     posY = 30
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Well that is unfortunate, no one may play, and thus the game is a tie.", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "The game is a tie.", posY, True)
     
     myfont = pygame.font.SysFont("monospace", 15)
     
