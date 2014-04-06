@@ -18,6 +18,10 @@ def WriteText(screen, screenSize, font, text, posY, center):
     
     return posY + size[1] + 5
     
+    
+    
+    
+    
 def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
     """
     Will draw all of the standard information to the screen
@@ -27,6 +31,10 @@ def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
         drawBox.Draw(screen)
     
     DrawLines(screen, positionInfo, spacer)
+    
+    
+    
+    
     
 def DrawLines(screen, positionInfo, spacer):
     for xStart in positionInfo.lineSideStartX:
@@ -40,6 +48,9 @@ def DrawLines(screen, positionInfo, spacer):
             (positionInfo.lineStartX + positionInfo.lineLengthX, yStart + spacer / 2), spacer)
 
 
+            
+            
+            
 def DrawCurrentPlayer(screen, currentPlayerInfo):
     myfont = pygame.font.SysFont("monospace", 20)
     
@@ -50,8 +61,6 @@ def DrawCurrentPlayer(screen, currentPlayerInfo):
     rect = currentPlayerInfo.image.get_rect()
     
     screen.blit(label, (0, (rect.height - myfont.size(text)[1]) / 2))
-    
-    
     
     rect.left = myfont.size(text)[0]
     rect.top = 0

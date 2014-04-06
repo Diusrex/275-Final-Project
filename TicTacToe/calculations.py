@@ -294,6 +294,10 @@ def CanBeWon(owners, otherId):
     # All contain at least 1
     return False
     
+    
+    
+    
+    
 def CalculateSectionScore(allSectionOwners, sectionPosition, boxesOwners, id, otherId, multiplier, aboveScore, sectionScoring):
     """
     This function will determine the score of the current section. 

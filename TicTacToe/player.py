@@ -11,6 +11,7 @@ import TicTacToe.calculations as calculations
 import calculations
   
 """
+
 class Player:
     def __init__(self, name, id, image):
         """
@@ -25,7 +26,10 @@ class Player:
         self.image = image
         self.id = id
     
-    def ChoosePosition(self, allSectionContainers, allSectionOwners, currentSection, otherId):
+    
+    
+    
+    def ChoosePosition(self, allSectionContainers, allSectionOwners, sectionPositon, otherId):
         """
         This is a virtual function.
         
@@ -44,11 +48,17 @@ class Player:
         """
         raise NotImplementedError
         
+        
+        
+        
+        
+        
 class HumanPlayer(Player):
     def __init__(self, name, id, image):
         super().__init__(name, id, image)
+
         
-    def ChoosePosition(self, allSections, allSectionOwners, currentSectionNum, otherId):
+    def ChoosePosition(self, allSections, allSectionOwners, sectionPositon, otherId):
         """
         Will just wait until the user presses on a valid position
         """
@@ -61,11 +71,11 @@ class HumanPlayer(Player):
                     pos = pygame.mouse.get_pos()
                     
                     # If it was a valid press, input will be a tuple containing (boxStatus, boxPressedIn)
-                    if (allSections[currentSectionNum].CanBeClickedIn()):
-                        boxChanged = allSections[currentSectionNum].HandleClicked(pos)
+                    if (allSections[sectionPositon].CanBeClickedIn()):
+                        boxChanged = allSections[sectionPositon].HandleClicked(pos)
                         
                         if boxChanged != None:
-                            return (currentSectionNum, boxChanged)
+                            return (sectionPositon, boxChanged)
                         
                     # It is possible that it is impossible to place in current box, in which case any box is valid
                     else:
@@ -82,6 +92,12 @@ class HumanPlayer(Player):
                 elif event.type == pygame.QUIT:
                     return None
 
+                    
+                    
+                    
+                    
+                    
+                    
 def SemiRandomPicker(possibleItems):
     """
     This function will pick one of the positive items, with the higher scores being more likely to be picked, or randomly of the highest scores if all are non-positive
@@ -115,6 +131,11 @@ def SemiRandomPicker(possibleItems):
         
     return random.choice(highest)
     
+    
+    
+    
+    
+    
 class AIPlayerMiniMax(Player):
     """
     This player will use a varient of the MiniMax method
@@ -134,6 +155,10 @@ class AIPlayerMiniMax(Player):
         self.increaseThreshold = 12
         self.boxScoring = boxScoring
         self.sectionScoring = sectionScoring
+    
+    
+    
+    
     
     def ChoosePosition(self, allSections, allSectionOwners, sectionPosition, otherId):
         """
@@ -199,6 +224,7 @@ class AIPlayerMiniMax(Player):
     
     
     
+    
     def CalculateBoxScore(self, allSectionOwners, allSectionBoxOwners, sectionPosition, boxPosition, currentPlayer, ids, multipliers, decisionSelectors, aboveScore, depth):
         """
         Will use calculations.CalculateBoxScore, which is focused upon the position of the box within a square (including blocking the opponent and creating lines)
@@ -238,7 +264,8 @@ class AIPlayerMiniMax(Player):
         
         # The boxPosition is the new sectionPosition
         return self.CalculateSectionScore(allSectionOwners, allSectionBoxOwners, boxPosition, currentPlayer, ids, multipliers, decisionSelectors, score, depth + 1)
-        
+    
+    
         
         
         

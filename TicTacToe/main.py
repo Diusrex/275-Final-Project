@@ -56,6 +56,11 @@ def Main(screen, screenSize):
         else:
             tryingToExit = True
             
+            
+            
+            
+            
+            
 def RunGame(screen, screenSize, decision):
     
     playerOne = player.AIPlayerMiniMax("Player one", 1, pygame.image.load('Assets/xPressed.png'), 3, 5, calculationsScoring.defaultBoxScoring, calculationsScoring.defaultSectionScoring, True)
@@ -69,6 +74,10 @@ def RunGame(screen, screenSize, decision):
     theGame = game.Game(playerOne, playerTwo, screenSize)
     
     return theGame.Run(screen, screenSize)
+                
+                
+                
+                
                 
                 
 def ShowWinScreen(screen, screenSize, winner):
@@ -95,6 +104,9 @@ def ShowWinScreen(screen, screenSize, winner):
 
                 
                 
+                
+                
+                
 def ShowTieScreen(screen, screenSize):
     """
     screen should already have the background set up
@@ -116,7 +128,10 @@ def ShowTieScreen(screen, screenSize):
         for event in ev:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
-                
+             
+
+
+             
                 
 if __name__ == "__main__":
     pygame.init()

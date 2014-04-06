@@ -56,6 +56,9 @@ class Game:
         self._currentIdentifier.fill((0, 0, 0))
         
         
+        
+        
+        
     def CreateBoxes(self, linesExtraLength, miniSpacer, xStart, yStart):
         """
         Will set up all of the classes box information.
@@ -101,6 +104,9 @@ class Game:
         self._allSections = allSections
         self._allSectionOwners = allSectionOwners
         self._positionInfo = positionInfo
+        
+        
+        
         
         
     def Run(self, screen, screenSize):
@@ -161,12 +167,20 @@ class Game:
             # Update the information for the next run
             currentPlayer = 1 - currentPlayer
                 
+                
+                
+                
+                
     def GameIsTie(self):
         for section in self._allSections:
             if section.CanBeClickedIn():
                 return False
         
         return True
+        
+        
+        
+        
         
     def Draw(self, screen, screenSize, thePlayer, currentSection):
         screen.fill((0, 0, 0))

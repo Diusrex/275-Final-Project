@@ -21,6 +21,7 @@ class Section(pygame.sprite.Sprite):
     
     notPressedImage = pygame.image.load('Assets/blank.png')    
     
+    
     def __init__(self, position, spacing):
         """
         position -> top left position of the box (remember, top left is (0, 0))
@@ -54,6 +55,7 @@ class Section(pygame.sprite.Sprite):
                 
                 self.ownedBy.append(0)
         
+        
     
     def GetOwnedBy(self):
         """
@@ -63,19 +65,30 @@ class Section(pygame.sprite.Sprite):
         """
         return list(self.ownedBy)
         
+        
+        
     def GetCenter(self):
         middleRect = self.allPositions[4]
         return middleRect.center
         
+        
+        
+        
     def GetBottomRight(self):
         bottomRightRect = self.allPositions[-1]
         return (bottomRightRect[0] + bottomRightRect.width, bottomRightRect[1] + bottomRightRect.height)
+    
+    
+    
     
     def CanBeClickedIn(self):
         """
         Will return if any of any boxes haven't been placed in
         """
         return 0 in self.ownedBy
+        
+        
+        
         
     def HandleClicked(self, mousePos):
         """
@@ -91,6 +104,9 @@ class Section(pygame.sprite.Sprite):
                 return pos
         
         return None
+    
+    
+    
     
     def AssignBoxToPlayer(self, boxPos, player):
         """
@@ -117,7 +133,10 @@ class Section(pygame.sprite.Sprite):
                 self.victoryLineEnd = self.allPositions[endBox].center
                 
         return self.status
-                
+             
+
+
+             
     def Draw(self, screen):
         """
         Will draw all the boxes inside of this Section, and will draw the win line if there is one
