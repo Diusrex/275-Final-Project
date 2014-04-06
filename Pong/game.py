@@ -18,17 +18,22 @@ import ball
 
 from player import Player
 """
+
 class Scores():
     def __init__(self):
         self.leftPlayerScore = 0
         
         self.rightPlayerScore = 0
         
+        
     def HitLeftSide(self):
         self.rightPlayerScore += 1
     
+    
     def HitRightSide(self):
         self.leftPlayerScore += 1
+        
+        
         
         
 def RunGame(screen, screenSize):    

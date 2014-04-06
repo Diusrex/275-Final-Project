@@ -1,5 +1,6 @@
 import pygame
 
+
 class Button(pygame.sprite.Sprite):
     def __init__(self, centerPosition, buttonSize, text, renderedText, textSize):
         """
@@ -22,6 +23,9 @@ class Button(pygame.sprite.Sprite):
         
         self.rect = self.image.get_rect()
         self.rect.center = centerPosition
+    
+    
+    
     
     
     def HandleMousePress(self, mousePos):

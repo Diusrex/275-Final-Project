@@ -6,6 +6,7 @@ class Player(pygame.sprite.Sprite):
     # Is up, not moving, down
     speed = (-30, 0, 30)
     
+    
     def __init__(self, name, position, upKey, downKey):
         pygame.sprite.Sprite.__init__(self)
         
@@ -21,20 +22,26 @@ class Player(pygame.sprite.Sprite):
         
         self.speed = 0
         
+        
+        
     def HandleKeyPress(self, keyId):
         if self.upKey == keyId:
             self.speed = Player.speed[0]
             
         elif self.downKey == keyId:
             self.speed = Player.speed[2]
-            
+           
+
+           
     def HandleKeyRelease(self, keyId):
         if self.upKey == keyId:
             self.speed = Player.speed[1]
             
         elif self.downKey == keyId:
             self.speed = Player.speed[1]
-            
+          
+
+          
     def update(self, timePassed, screenSize):            
         self.rect.move_ip(0, self.speed * timePassed)
         

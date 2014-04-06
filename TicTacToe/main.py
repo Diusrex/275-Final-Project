@@ -139,4 +139,3 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode(screenSize)
     main(screen, screenSize)
     
-    

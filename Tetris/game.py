@@ -20,6 +20,7 @@ from coordinate import Coordinate
 from drawFunctions import WriteText, DisplayHighScores
 """
 
+
 class Game:
     """
     Will handle all of the game's logic.
@@ -49,6 +50,8 @@ class Game:
         self.timeToShiftMinimum = 500
         
         
+        
+        
     def SetUpNewGame(self):
         self.lost = False
         self.numberBoxesX = self.middleSize[0] // self.boxSize
@@ -75,6 +78,7 @@ class Game:
     
     
     
+    
     def SetUpUsedBlock(self, newBlock):
         """
         Will create the usedBlock from the given new block. Will also check to see if the used block could be created by call Update() on it, and will return the value of Update.
@@ -87,11 +91,13 @@ class Game:
     
     
     
+    
     def CreateNewNextBox(self):
         """
         Will create a new Block for upNextBLock, using the spawn pos for it
         """
         self.upNextBlock = block.Block(self.upNextBlockPos, self.boxSize)
+        
         
         
         
@@ -181,6 +187,10 @@ class Game:
         # Return the score
         return self.score
         
+        
+        
+        
+        
     def HandleUsedBlockImpact(self):
         """
         Will handle all of the logic required to handle the usedBlock impacting the floor
@@ -199,6 +209,9 @@ class Game:
             self.lost = True
         
         redraw = True
+    
+    
+    
     
     
     def RemoveCompletedRows(self):
@@ -232,6 +245,10 @@ class Game:
         scoreIncrease = count * self.scorePerRow * self.scoreMultiplyer[count]
         self.score += scoreIncrease
     
+    
+    
+    
+    
     def DrawUpNextBox(self, screen):
         """
         Will also draw some infomation for the user
@@ -243,6 +260,9 @@ class Game:
         screen.blit(label, (self.rightOffset + 5, 40))
         
         self.upNextBlock.Draw(screen, self.middleSize[1], self.rightOffset)
+        
+        
+        
         
         
     def DrawGrid(self, screen):
@@ -267,6 +287,10 @@ class Game:
         for boxYPos in range(self.numberBoxesY + 1):
             pygame.draw.line(screen, (128, 128, 128), 
             (self.middleOffset, self.totalSize[1] - self.boxSize * boxYPos), (self.middleOffset + self.boxSize * self.numberBoxesX, self.totalSize[1] - self.boxSize * boxYPos))    
+    
+    
+    
+    
     
     def DrawScores(self, screen, highScores):
         """

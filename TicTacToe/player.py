@@ -302,8 +302,3 @@ class AIPlayerMiniMax(Player):
             
         # Want to select the best possible score
         return decisionSelectors[currentPlayer](scores)
-                
-                
-        
-        
-        

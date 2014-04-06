@@ -22,6 +22,9 @@ class Ball(pygame.sprite.Sprite):
         
         self.impactHandler = impactHandler
         
+        
+        
+        
     def RandomlyIncreaseSpeed(self):
         # Should not increase beyond this point
         if self.speed[0] ** 2 + self.speed[1] ** 2 > 10000:
@@ -36,6 +39,10 @@ class Ball(pygame.sprite.Sprite):
         
         self.speed[0] += xIncrease
         self.speed[1] += yIncrease
+        
+        
+        
+        
         
     def update(self, timePassed, screenSize):
         """

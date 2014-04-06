@@ -16,6 +16,7 @@ tutorialText = "How to Play"
 exitText = "Exit"
 
 
+
 def RunMenu(screen, screenSize, highScores):
     """
     Will return one of playText, tutorialText, or exitText
@@ -58,6 +59,7 @@ def RunMenu(screen, screenSize, highScores):
 
 
 
+                
     
 def CreateButtons(posY, screenSize):
     """

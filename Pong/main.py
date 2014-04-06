@@ -16,6 +16,7 @@ import game
 import drawFunctions
 """
 
+
 def Main(screen, screenSize):
     tryingToExit = False
     
@@ -37,6 +38,8 @@ def Main(screen, screenSize):
         else:
             tryingToExit = True
             
+        
+        
         
 
 def ShowWinScreen(screen, screenSize, scoreInfo):

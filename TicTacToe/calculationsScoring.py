@@ -16,8 +16,12 @@ class BoxScoring:
         self.placedCornerScore = placedCornerScore
         self.placedOtherScore = placedOtherScore
 
+        
+        
 # Simply the standard design for scoring
 defaultBoxScoring = BoxScoring(1000, 20, 5, 3, 0, 0, 0)
+
+
 
 
 class SectionScoring:
@@ -35,5 +39,7 @@ class SectionScoring:
         self.ownMiddleScore = ownMiddleScore
         self.ownCornerScore = ownCornerScore
         self.ownOtherScore = ownOtherScore
+    
+    
     
 defaultSectionScoring = SectionScoring(-5, 20, 7, 4, 0, 0, 0)

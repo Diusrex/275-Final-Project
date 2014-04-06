@@ -13,6 +13,9 @@ import drawFunctions
 maxNumScores = 10
 maxNameSize = 10
 
+
+
+
 def LoadHighScores(fileName):
     """
     Will load up to maxNumScores highScores. 
@@ -21,8 +24,6 @@ def LoadHighScores(fileName):
         If an entry is just a filler, its [0] will be ""
     """
     highScores = [("", 0) for x in range(maxNumScores)]
-    
-    
 
     if os.path.isfile(fileName):
         with open(fileName, 'r') as theFile:
@@ -41,6 +42,10 @@ def LoadHighScores(fileName):
     
     return highScores
 
+    
+    
+    
+    
 def UpdateHighScores(screen, screenSize, score, highScores, fileName):
     different = False
     for pos in range(len(highScores)):
@@ -66,7 +71,11 @@ def UpdateHighScores(screen, screenSize, score, highScores, fileName):
                     break
                 theFile.write("%s %d\n" % (score[0], score[1]))
         
-            
+       
+
+
+
+       
 def GetHighScoreInput(screen, screenSize, score, pos):
     redraw = True
     finished = False
@@ -117,6 +126,10 @@ def GetHighScoreInput(screen, screenSize, score, pos):
             
     return name
     
+    
+    
+    
+    
 def ShowScoreScreen(screen, screenSize, score, highScores):
     """
     Will overwrite the screen createdy by the game
@@ -143,11 +156,7 @@ def ShowScoreScreen(screen, screenSize, score, highScores):
     
     drawFunctions.DisplayHighScores(screen, screenSize, posY + 15, highScores, 15)
     
-    # EDIT: Display all older high scores, and add option to add own high score?
-    
     pygame.display.flip()
-    
-    
     
     while True:
         ev = pygame.event.get()

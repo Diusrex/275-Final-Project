@@ -1,5 +1,6 @@
 import pygame
 
+
 def WriteText(screen, screenSize, font, text, posY, center):
     """
     Will return the new posY, after the increase from the recently added text
@@ -17,6 +18,9 @@ def WriteText(screen, screenSize, font, text, posY, center):
     
     
     return posY + size[1] + 5
+    
+    
+    
     
     
 def DisplayHighScores(screen, allocatedSize, posY, highScores, fontSize):

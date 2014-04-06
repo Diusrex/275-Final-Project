@@ -53,8 +53,15 @@ class Block:
         self.image = pygame.Surface((blockSize, blockSize))
         self.image.fill(random.choice(Block.colors))
         
+        
+        
+        
+        
     def SetPosition(self, newPos):
         self.position = newPos.Copy()
+    
+    
+    
     
     def MoveHorizontal(self, grid, move):
         """
@@ -72,6 +79,10 @@ class Block:
                 return False
         self.position.x += move
         return True
+        
+        
+        
+        
         
     def RotateClockwise(self, grid):
         """
@@ -101,6 +112,10 @@ class Block:
         
         self.shape = tempShape
         
+        
+        
+        
+        
     def Update(self, grid):
         """
         This should only be called every time the block is to descend one step
@@ -122,6 +137,10 @@ class Block:
         self.position.y -= 1
         return True
         
+        
+        
+        
+        
     def Draw(self, screen, bottomPos, horizontalOffset):    
         """
         Remember that the bottomPos will be screenSize[1], because the top of the screen is (0, 0)
@@ -133,12 +152,11 @@ class Block:
         
         
         
+        
     def SaveInGrid(self, grid):
         """
         This means that the Block has collided with an object, and will now become part of the grid
         """
-        
-        
         for block in self.shape:
             grid[self.position.x + block.x][self.position.y + block.y] = self.image
         

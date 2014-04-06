@@ -12,6 +12,8 @@ from drawFunctions import WriteText
 
 name = "Tetris"
 
+
+
 def RunTutorial(screen, screenSize):
     """
     Will display the tutorial/information needed for the user to be able to play properly.
@@ -87,7 +89,3 @@ def RunTutorial(screen, screenSize):
                 
             elif event.type == pygame.QUIT:
                 return False
-        
-    
-
-    

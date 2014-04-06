@@ -22,6 +22,7 @@ import scoreFunctions
 import game
 """
 
+
 def Main(screen, screenSize):
     
     highScores = scoreFunctions.LoadHighScores(scorefilePath)
@@ -47,6 +48,8 @@ def Main(screen, screenSize):
         else:
             tryingToExit = True
 
+    
+    
     
     
 def RunGame(screen, screenSize, highScores):    
