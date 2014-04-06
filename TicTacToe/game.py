@@ -139,12 +139,6 @@ class Game:
             # Update allSectionOwners (may remain 0). Does not use the old currentSection, because the player may have been able to place anywhere
             self._allSectionOwners[changedSection] = newStatus
             
-            print("Information:")
-            for section in self._allSections:
-                print(section.GetOwnedBy())
-                
-            #print(self._allSectionOwners)
-            
             # Needs to draw information for the next player, but won't update currentPlayer for if someone won
             self.Draw(screen, screenSize, self._players[1 - currentPlayer], currentSection)
             

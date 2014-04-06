@@ -59,7 +59,7 @@ def RunGame(screen, screenSize, decision):
         playerTwo = player.HumanPlayer("Player two", 2, pygame.image.load('Assets/oPressed.png'))
         
     else:
-        return None
+        playerTwo = player.AIPlayerMiniMax("Player two", 2, pygame.image.load('Assets/oPressed.png'), 3, True)
     
     theGame = game.Game(playerOne, playerTwo, screenSize)
     
