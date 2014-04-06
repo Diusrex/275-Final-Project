@@ -77,7 +77,7 @@ def ShowWinScreen(screen, screenSize, winner):
     
     myfont = pygame.font.SysFont("monospace", 15)
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press enter/return to return to the main menu", posY, True)
     
     pygame.display.flip()
     
@@ -85,7 +85,7 @@ def ShowWinScreen(screen, screenSize, winner):
         ev = pygame.event.get()
 
         for event in ev:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
 
                 
@@ -109,7 +109,7 @@ def ShowTieScreen(screen, screenSize):
         ev = pygame.event.get()
 
         for event in ev:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
                 
                 
