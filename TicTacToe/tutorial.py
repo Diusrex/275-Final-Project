@@ -21,6 +21,7 @@ def RunTutorial(screen, screenSize):
     """
     Will display the tutorial/information needed for the user to be able to play properly.
     
+    Because this game is relatively complex, has multiple pages
     Will return True if the user wanted to go to the menu, otherwise will return False (and thus wants to exit)
     """
     pageNum = 1
@@ -49,6 +50,9 @@ def RunTutorial(screen, screenSize):
     
     
 def Page1(screen, screenSize, myfont):
+    """
+    This will set up the screen with information for page 1, then pass control to RunRestOfMenu
+    """
     screen.fill((0, 0, 0))
     posY = 0
     
@@ -81,6 +85,9 @@ def Page1(screen, screenSize, myfont):
     
     
 def Page2(screen, screenSize, myfont):
+    """
+    This will set up the screen with information for page 2, then pass control to RunRestOfMenu
+    """
     screen.fill((0, 0, 0))
     posY = 10
     
@@ -114,6 +121,9 @@ def Page2(screen, screenSize, myfont):
 
 
 def Page3(screen, screenSize, myfont):
+    """
+    This will set up the screen with information for page 1, then pass control to RunRestOfMenu
+    """
     screen.fill((0, 0, 0))
     posY = 10
     

@@ -1,14 +1,15 @@
 import pygame
 
+# This file is the same throughout the program, reason there are multiple copies is to make is the games can, relatively easily, be ran individually
+
 class Button(pygame.sprite.Sprite):
     def __init__(self, centerPosition, buttonSize, text, renderedText, textSize):
         """
-        center position will be the centre of where the button will be
+        centerPosition will be the centre of where the button will be
         both center and size should be tuples
         
-        renderedText is the text rendered by pygame.font.SysFont, text is the text that renderedText was created from
+        renderedText is the text created from using pygame.font.SysFont, text is the string that renderedText was created from
         """
-        
         pygame.sprite.Sprite.__init__(self)
         self.text = text
         
@@ -22,6 +23,8 @@ class Button(pygame.sprite.Sprite):
         
         self.rect = self.image.get_rect()
         self.rect.center = centerPosition
+    
+    
     
     
     def HandleMousePress(self, mousePos):

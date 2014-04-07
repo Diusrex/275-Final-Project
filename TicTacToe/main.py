@@ -62,8 +62,10 @@ def Main(screen, screenSize):
             
             
 def RunGame(screen, screenSize, decision):
+    playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
     
-    playerOne = player.AIPlayerMiniMax("Player one", 1, pygame.image.load('Assets/xPressed.png'), 3, 5, calculationsScoring.defaultBoxScoring, calculationsScoring.defaultSectionScoring, True)
+    # This is for testing how well the ai can do when maximizing and not maximizing it's score
+    #playerOne = player.AIPlayerMiniMax("Player one", 1, pygame.image.load('Assets/xPressed.png'), 3, 5, calculationsScoring.defaultBoxScoring, calculationsScoring.defaultSectionScoring, True)
     
     if decision == menu.twoPlayerText:
         playerTwo = player.HumanPlayer("Player two", 2, pygame.image.load('Assets/oPressed.png'))

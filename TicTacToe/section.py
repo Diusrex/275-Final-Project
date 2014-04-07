@@ -68,6 +68,9 @@ class Section(pygame.sprite.Sprite):
         
         
     def GetCenter(self):
+        """
+        Will return the center position of this section
+        """
         middleRect = self.allPositions[4]
         return middleRect.center
         
@@ -75,6 +78,9 @@ class Section(pygame.sprite.Sprite):
         
         
     def GetBottomRight(self):
+        """
+        Will return the bottom right position of this section
+        """
         bottomRightRect = self.allPositions[-1]
         return (bottomRightRect[0] + bottomRightRect.width, bottomRightRect[1] + bottomRightRect.height)
     
@@ -83,7 +89,7 @@ class Section(pygame.sprite.Sprite):
     
     def CanBeClickedIn(self):
         """
-        Will return if any of any boxes haven't been placed in
+        Will return true if any of any boxes haven't been placed in
         """
         return 0 in self.ownedBy
         
@@ -110,7 +116,8 @@ class Section(pygame.sprite.Sprite):
     
     def AssignBoxToPlayer(self, boxPos, player):
         """
-        Will update the changed box, and this section, will information needed
+        Will update the changed box, and if necessary, check to see if this section was won by claiming that box.
+            If it was, will set up this section to be able to draw the victoryLine within this section.
         
         Will then return the status (who controls the box) of this section
         """

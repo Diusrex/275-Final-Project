@@ -1,6 +1,8 @@
 class PositionInfo:
     """
-    This class's sole purpose is to store position information for the game easily, rather than have it be scattered among 4 or 5 different lists
+    This class's sole purpose is to store position information for the game easily, rather than have it be scattered among 4 or 5 different lists.
+    
+    Is only used by the game, for saving where boxes start and stop (for drawing mostly)
     
     """
     

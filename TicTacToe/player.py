@@ -12,7 +12,7 @@ import calculations
   
 """
 
-class Player:
+class BasePlayer:
     def __init__(self, name, id, image):
         """
         id must not be 0, if it is then the program will fail miserably
@@ -31,20 +31,19 @@ class Player:
     
     def ChoosePosition(self, allSectionContainers, allSectionOwners, sectionPositon, otherId):
         """
-        This is a virtual function.
+        This is a virtual function (which is why it will raise the below error
         
         If the player choose a box, then will return the position of that box. 
         
         Otherwise the user wants to quit, and will return None.
         
-        When calling, do not copy the boxesInformation, that can be done later if this classes wants to do so
+        When calling, do not copy the boxesInformation, the passed information will not be altered
         
         If the program is to quit, will return none
         
         Otherwise, will return a tuple containing:
             0: The section that was altered
             1: The box changed
-            
         """
         raise NotImplementedError
         
@@ -53,7 +52,7 @@ class Player:
         
         
         
-class HumanPlayer(Player):
+class HumanPlayer(BasePlayer):
     def __init__(self, name, id, image):
         super().__init__(name, id, image)
 
@@ -100,9 +99,11 @@ class HumanPlayer(Player):
                     
 def SemiRandomPicker(possibleItems):
     """
-    This function will pick one of the positive items, with the higher scores being more likely to be picked, or randomly of the highest scores if all are non-positive
+    This function will pick one item and return it. The items will be a tuple in the pattern (section, box, score), so will be compare using [2].
     
-    The items will be in the order (section, box, score), so will be compare using [2]
+    If there is at least one positive item, will pick randomly, with items that have a higher score being more likely to be picked.
+    Otherwise, will pick randomly from all of the items with the highest score.
+
     """
     totalScore = 0
     
@@ -123,6 +124,7 @@ def SemiRandomPicker(possibleItems):
     highest = [possibleItems[0]]
     
     for item in possibleItems:
+        # The second check is to avoid giving greater precedence to the first item
         if item[2] == highest[0][2] and item != highest[0]:
             highest.append(item)
         
@@ -136,7 +138,7 @@ def SemiRandomPicker(possibleItems):
     
     
     
-class AIPlayerMiniMax(Player):
+class AIPlayerMiniMax(BasePlayer):
     """
     This player will use a varient of the MiniMax method
     
@@ -172,7 +174,9 @@ class AIPlayerMiniMax(Player):
         if self.count >= self.increaseThreshold and self.maxDepth < self.absoluteMaxDepth:
             self.count = 0
             self.maxDepth += 1
-            
+        
+        
+        
         # Makes it easy to know who is going
         currentPlayer = 0
         ids = (self.id, otherId)
@@ -183,6 +187,8 @@ class AIPlayerMiniMax(Player):
         # These are related to how I want the highest score, and my opp wants the lowest score
         decisionSelectors = (max, min)
         
+        
+        # Use this rather than allSections because it will be alot easier to simply copy a list, rather than copy a section
         allSectionBoxOwners = []
         for section in allSections:
             allSectionBoxOwners.append(section.GetOwnedBy())
