@@ -48,7 +48,7 @@ class Game:
         yStart = (screenSize[1] - (imageSize.height * 9 + self._spacer * 2 + miniSpacer * 6)) / 2
         
         
-        self.CreateBoxes(15, miniSpacer, xStart, yStart)
+        self.CreateSections(15, miniSpacer, xStart, yStart)
     
         self._currentIdentifier = pygame.Surface((self._positionInfo.startPosX[1] - self._positionInfo.startPosX[0] - self._spacer, self._positionInfo.startPosY[1] - self._positionInfo.startPosY[0] - self._spacer))
     
@@ -59,11 +59,10 @@ class Game:
         
         
         
-    def CreateBoxes(self, linesExtraLength, miniSpacer, xStart, yStart):
+    def CreateSections(self, linesExtraLength, miniSpacer, xStart, yStart):
         """
-        Will set up all of the classes box information.
+        Will set up all of the classes sections, and the corresponding positionInfo
         """
-        
         # This information will be added to self later in this function, just reduces typing
         allSections = []
         allSectionOwners = []
@@ -111,9 +110,9 @@ class Game:
         
     def Run(self, screen, screenSize):
         """
-        Will leave the screen drawn before returning
+        Will leave the screen drawn before returning.
         
-        If the user wanted to exit, then will return None, otherwise will return the id of the winner
+        If the user wanted to exit, will return None, otherwise will return the id of the winner
         """
         currentPlayer = 0
         
@@ -174,6 +173,9 @@ class Game:
                 
                 
     def GameIsTie(self):
+        """
+        Will check to see if it is still possible for a player to make a move
+        """
         for section in self._allSections:
             if section.CanBeClickedIn():
                 return False
@@ -190,6 +192,9 @@ class Game:
         """
         screen.fill((0, 0, 0))
         drawFunctions.DrawBoxesAndLinesToScreen(screen, self._allSections, self._positionInfo, self._spacer)
+    
+    
+    
     
     def DrawInfo(self, screen, screenSize, thePlayer, currentSection):
         """

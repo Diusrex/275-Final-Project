@@ -56,7 +56,7 @@ def DrawLines(screen, positionInfo, spacer):
             
 def DrawCurrentPlayer(screen, currentPlayerInfo):
     """
-    Will draw all of the info related to the player (name, and what their icon looks like)
+    Will draw all of the info related to the player (name and what their icon looks like) in teh top left of the screen.
     """
     myfont = pygame.font.SysFont("monospace", 20)
     

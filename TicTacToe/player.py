@@ -290,7 +290,7 @@ class AIPlayerMiniMax(BasePlayer):
         """
         scores = []
         
-        if calculations.SectionCanBePlaced(allSectionBoxOwners[sectionPosition]):
+        if calculations.SectionCanBePlacedIn(allSectionBoxOwners[sectionPosition]):
             sectionScore = calculations.CalculateSectionScore(allSectionOwners, sectionPosition, allSectionBoxOwners[sectionPosition], ids[currentPlayer], ids[1 - currentPlayer], multipliers[currentPlayer], aboveScore, self.sectionScoring)
 
             allPossibleBoxes = calculations.GetAllCanBePlacedIn(allSectionBoxOwners[sectionPosition])
@@ -304,7 +304,7 @@ class AIPlayerMiniMax(BasePlayer):
             # Can be placed anywhere
             for section in range(9):
                 # Need to make sure that they may be placed in before, otherwise would create an infinite loop
-                if calculations.SectionCanBePlaced(allSectionBoxOwners[section]):
+                if calculations.SectionCanBePlacedIn(allSectionBoxOwners[section]):
                     scores.append(self.CalculateSectionScore(allSectionOwners, allSectionBoxOwners, section, currentPlayer, ids, multipliers, decisionSelectors, aboveScore, depth))
         
         # Means it was a tie

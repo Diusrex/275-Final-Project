@@ -4,10 +4,10 @@ def CheckIfWin(owners):
     
     owners should be a 1d array of size 9, which stores at each position who owns the box/section
     
-    
     if there is a winner will return:
-        (start, end) where start and end are the box #s that were on the start and end of the win
-        Don't check in more detail because the player who just played is the only one who could win
+        (start, end) where start and end are the #s that were on the start and end of the win
+    
+    This must be called every time something is changed, because this function does not check to see who won, just if there was a winner
         
     otherwise, will return None
     """
@@ -46,7 +46,10 @@ def CheckIfWin(owners):
     
     
     
-def SectionCanBePlaced(boxes):
+def SectionCanBePlacedIn(boxes):
+    """
+    Is pretty basic, probably not needed to be a function
+    """
     return (0 in boxes)
 
 
@@ -129,20 +132,19 @@ def CalculateAllWanted(boxesOwners, countIncrease, occuranceInfo, id, otherId, s
 
 def CalculateBoxScore(sectionOwners, sectionPos, boxesOwners, boxPos, id, otherId, multiplier, aboveScore, boxScoring):
     """
-    This will calculate the score based on the following:
+    This will calculate the score based on the following (if the section has not be won yet):
         1) If it wins this section score will be:
-            1000 if wins the game (to completely render the other scores unneccesary
-            8 otherwise
+            boxScoring.winGameScore if wins the game (to completely render the other scores unneccesary
+            boxScoring.winSectionScore otherwise
         
         2) If it creates a 2 line, will be a score of:
-            4
+            boxScoring.makeTwoLineScore per line created
             
         3) If it blocks an enemy 2 line, will be a score of:
-            3
+            boxScoring.blockTwoLineScore per line blocked
         
-        4) Middle will be a score of 2, corners will 1, and rest will be 0
-    
-    The numbers could probably use some fiddling
+        4) Middle will be a score of boxScoring.placedMiddleScore, corners will be boxScoring.placedCornerScore, and rest will be boxScoring.placedOtherScore
+    Will also add the aboveScore to this new score
     """
     # idIncrease represents whether or not the id has already been added to the box
     if boxesOwners[boxPos] != id:
@@ -300,8 +302,23 @@ def CanBeWon(owners, otherId):
     
 def CalculateSectionScore(allSectionOwners, sectionPosition, boxesOwners, id, otherId, multiplier, aboveScore, sectionScoring):
     """
-    This function will determine the score of the current section. 
+    This will calculate the score based on the following:
+        a) If this section has been won, will reduce the score by sectionScoring.unableToEffectGameScore
+            Same with if it is not possible to win the section
+            
+        b) Otherwise:
+                
+            1) If by winning this section, the player would win the game, will add a score of sectionScoring.mayWinImmediately
+            
+            2) If, by winning this section, will creates a 2 line of won sections, will be a score of:
+                sectionScoring.makeTwoLineScore per line created
+                
+            3) If, by winning this section, will block a 2 line of opponent won sections, will be a score of:
+                sectionScoring.blockTwoLineScore per line blocked
+            
+            4) Middle section will also add a score sectionScoring.ownMiddleScore, corners will be sectionScoring.ownCornerScore, and rest will be sectionScoring.ownOtherScore
     
+    Will also add the aboveScore to this new score
     """
     score = 0
     
@@ -329,12 +346,14 @@ def CalculateSectionScore(allSectionOwners, sectionPosition, boxesOwners, id, ot
             
             score += sectionScoring.ownCornerScore
         
+        
         elif sectionPosition == 1:
             CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
             
             CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 1, 3)
             
             score += sectionScoring.ownOtherScore
+        
         
         elif sectionPosition == 2:
             CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 0, 1)
@@ -344,6 +363,7 @@ def CalculateSectionScore(allSectionOwners, sectionPosition, boxesOwners, id, ot
             CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 2, 2)
             
             score += sectionScoring.ownCornerScore
+            
             
         elif sectionPosition == 3:
             CalculateAllWanted(allSectionOwners, countIncrease, occuranceInfo, id, otherId, 3, 1)

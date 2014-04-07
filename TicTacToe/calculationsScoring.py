@@ -4,7 +4,6 @@ class BoxScoring:
     
     The name of each variable corresponds to when it would be added to the score in calculations.CalculateBoxScore.
     """
-    
     def __init__(self, winGameScore, winSectionScore, makeTwoLineScore, blockTwoLineScore, placedMiddleScore, placedCornerScore, placedOtherScore):
         self.winGameScore = winGameScore
         self.winSectionScore = winSectionScore
@@ -18,7 +17,7 @@ class BoxScoring:
 
         
         
-# Simply the standard design for scoring
+# The standard design for boxScoring (may not be the best)
 defaultBoxScoring = BoxScoring(1000, 20, 5, 3, 0, 0, 0)
 
 
@@ -30,7 +29,6 @@ class SectionScoring:
     
     The name of each variable corresponds to when it would be added to the score in calculations.CalculateBoxScore.
     """
-    
     def __init__(self, unableToEffectGameScore, mayWinImmediately, makeTwoLineScore, blockTwoLineScore, ownMiddleScore, ownCornerScore, ownOtherScore):
         self.unableToEffectGameScore = unableToEffectGameScore
         self.mayWinImmediately = mayWinImmediately
@@ -41,5 +39,5 @@ class SectionScoring:
         self.ownOtherScore = ownOtherScore
     
     
-    
+# The standard design for SectionScoring (may not be the best)
 defaultSectionScoring = SectionScoring(-5, 20, 7, 4, 0, 0, 0)
