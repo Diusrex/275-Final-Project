@@ -2,7 +2,7 @@ import pygame
 import random
 import button
 
-
+# All of the standard output for this menu
 name = "Pong"
 playText = "Play the Game"
 tutorialText = "How to Play"
@@ -22,6 +22,7 @@ def RunMenu(screen, screenSize):
     
     screen.blit(nameRenderText, ( (screenSize[0] - infoSize[0]) / 2, 0))
     
+    # Creating the button
     buttonGroup = CreateButtons(infoSize[1] + 100, screenSize)
     
     
@@ -32,7 +33,7 @@ def RunMenu(screen, screenSize):
     while True:
         ev = pygame.event.get()
 
-        # proceed events
+        # Handle all of the important events
         for event in ev:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
@@ -54,7 +55,8 @@ def RunMenu(screen, screenSize):
                 
 def CreateButtons(posY, screenSize):
     """
-    Will create a pygame.sprite.Group that contains all of the buttons. The top buttons will appear at posY
+    Will create a pygame.sprite.Group that contains all of the buttons, and return it. 
+    The top button will appear at posY.
     """
     buttonGroup = pygame.sprite.Group()
     

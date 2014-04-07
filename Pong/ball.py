@@ -10,7 +10,7 @@ class Ball(pygame.sprite.Sprite):
         
         self.image = pygame.Surface((Ball.standardSize, Ball.standardSize))
         
-        # This makes it so that only the white circle is drawn, rest is ignored
+        # This makes it so that only the white circle, radius Ball.standardSize // 2, is drawn while rest is ignored
         self.image.fill((0, 0, 0))
         self.image.set_colorkey((0, 0, 0))
         pygame.draw.circle(self.image, (255, 255, 255), (Ball.standardSize // 2, Ball.standardSize // 2), Ball.standardSize // 2)
@@ -26,10 +26,14 @@ class Ball(pygame.sprite.Sprite):
         
         
     def RandomlyIncreaseSpeed(self):
-        # Should not increase beyond this point
-        if self.speed[0] ** 2 + self.speed[1] ** 2 > 10000:
-            print("Done increasing speed")
+        """
+        Will increase the speed of this ball.
+        This function is very arbitrary with the numbers it uses, but it seems to work
+        """
+        # Should not increase beyond this point (yes it is arbitrary)
+        if self.speed[0] ** 2 + self.speed[1] ** 2 > 100000:
             return
+            
         # These are to make it so that the increases can be added to speed without danger of decreasing speed
         xMultiplyer = self.speed[0] / math.fabs(self.speed[0])
         yMultiplyer = self.speed[1] / math.fabs(self.speed[1])

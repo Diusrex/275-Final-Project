@@ -3,8 +3,8 @@ import pygame
 class Player(pygame.sprite.Sprite):
     standardImage = pygame.Surface((15, 60))
     
-    # Is up, not moving, down
-    speed = (-30, 0, 30)
+    # Is up, not moving, down. Is the number of pixels per tenth of a second
+    speed = (-60, 0, 60)
     
     
     def __init__(self, name, position, upKey, downKey):
@@ -25,6 +25,9 @@ class Player(pygame.sprite.Sprite):
         
         
     def HandleKeyPress(self, keyId):
+        """
+        This wmust be called every time the user presses a button, because the up/down keys could be anything
+        """
         if self.upKey == keyId:
             self.speed = Player.speed[0]
             
@@ -34,6 +37,9 @@ class Player(pygame.sprite.Sprite):
 
            
     def HandleKeyRelease(self, keyId):
+        """
+        This wmust be called every time the user releases a button, because the up/down keys could be anything
+        """
         if self.upKey == keyId:
             self.speed = Player.speed[1]
             
@@ -42,7 +48,12 @@ class Player(pygame.sprite.Sprite):
           
 
           
-    def update(self, timePassed, screenSize):            
+    def update(self, timePassed, screenSize):       
+        """
+        Should be called everytime the screen will be updated.
+        The timePassed parameter should be in tenths of a second, otherwise the paddle will travel far too quickly
+        """
+        
         self.rect.move_ip(0, self.speed * timePassed)
         
         if self.rect.top < 0:

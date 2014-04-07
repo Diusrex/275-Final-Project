@@ -18,6 +18,9 @@ import drawFunctions
 
 
 def Main(screen, screenSize):
+    """
+    Is the starting point of this program. Is the only function that should be called by outside programs to start this program.
+    """
     tryingToExit = False
     
     while not tryingToExit:
@@ -44,7 +47,7 @@ def Main(screen, screenSize):
 
 def ShowWinScreen(screen, screenSize, scoreInfo):
     """
-    screen should already have the background set up
+    The screen has already have had the game drawn to it, so this function must not clear the screen
     """
     
     if scoreInfo.leftPlayerScore > scoreInfo.rightPlayerScore:
@@ -54,12 +57,13 @@ def ShowWinScreen(screen, screenSize, scoreInfo):
     
     myfont = pygame.font.SysFont("monospace", 30)
     
+    # Fairly arbitrary position, makes the text low enough to no overlap with the score
     posY = 300
     posY = drawFunctions.WriteText(screen, screenSize, myfont, "Congratulations " + winner + " you have won!", posY, True)
     
     myfont = pygame.font.SysFont("monospace", 15)
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press enter/return to go to the main menu", posY, True)
     
     pygame.display.flip()
     
@@ -67,7 +71,7 @@ def ShowWinScreen(screen, screenSize, scoreInfo):
         ev = pygame.event.get()
 
         for event in ev:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
 
         
