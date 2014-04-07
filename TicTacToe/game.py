@@ -119,7 +119,9 @@ class Game:
         
         currentSection = 4
         
-        self.Draw(screen, screenSize, self._players[currentPlayer], currentSection)
+        self.DrawBasic(screen, screenSize)
+        self.DrawInfo(screen, screenSize, self._players[currentPlayer], currentSection)
+        pygame.display.flip()
         
         while True:
             # Checking to see if any section can be placed in
@@ -145,8 +147,7 @@ class Game:
             # Update allSectionOwners (may remain 0). Does not use the old currentSection, because the player may have been able to place anywhere
             self._allSectionOwners[changedSection] = newStatus
             
-            # Needs to draw information for the next player, but won't update currentPlayer for if someone won
-            self.Draw(screen, screenSize, self._players[1 - currentPlayer], currentSection)
+            self.DrawBasic(screen, screenSize)
             
             winner = calculations.CheckIfWin(self._allSectionOwners)
             
@@ -166,8 +167,9 @@ class Game:
                         
             # Update the information for the next run
             currentPlayer = 1 - currentPlayer
-                
-                
+            
+            self.DrawInfo(screen, screenSize, self._players[currentPlayer], currentSection)
+            pygame.display.flip()
                 
                 
                 
@@ -182,12 +184,18 @@ class Game:
         
         
         
-    def Draw(self, screen, screenSize, thePlayer, currentSection):
+    def DrawBasic(self, screen, screenSize):
+        """
+        Will clear the screen and draw the sections, but will not draw the player, or the currentIdentifier
+        """
         screen.fill((0, 0, 0))
         drawFunctions.DrawBoxesAndLinesToScreen(screen, self._allSections, self._positionInfo, self._spacer)
+    
+    def DrawInfo(self, screen, screenSize, thePlayer, currentSection):
+        """
+        Will draw all of the info related to the game, such as the player and the currentIdentifier
+        """
         drawFunctions.DrawCurrentPlayer(screen, thePlayer)
         
         if self._allSections[currentSection].CanBeClickedIn():
             screen.blit(self._currentIdentifier, (self._positionInfo.startPosX[currentSection %3], self._positionInfo.startPosY[currentSection//3]))
-        
-        pygame.display.flip()
