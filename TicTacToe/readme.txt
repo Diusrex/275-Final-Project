@@ -19,7 +19,9 @@ AI descripion:
     
     The reason why the maxDepth (which determines how many moves the player will look forward) is relatively low, is because the first depth checks upto 9 positions, the second checks up to 81 distinct positions, and the third checks up to 729 distinct positions. These are distinct becuase what was played before these spots were chosen will be different.
         However, over time, the maxDepth is increased because there will simply not be that many possible moves, because the 
-
+    
+    The ai will look 3 to 5 moves ahead, depending on how far into the game it is.
+    
     The ai will recursively determine the score for each initial starting box, with the following pattern:
         For each box that may be played in box, will call CalculateBoxScore. This fucntion will calculate the score of that box within the section that it is in, such as if it will block an opponents two in a row, if it will win the section for this player, etc.
         
@@ -44,6 +46,8 @@ AI Improvements:
     Using Alpha–beta pruning instead of minimax.
         This would increase the number of moves able to look ahead by 1 or 2, which will have an impact on how the ai does.
     
+    Having different difficulties.
+        This could be accomplished by changing the absoluteMaxDepth, altering boxScoring and sectionScoring, or running different diffulties with altered calculations.CalculateBoxScore and calculations.CalculateSectionScore
     
 The reason why I had the tic tac toe boxes be stored as a single 1d list, rather than a 2d list, was for ease of use.
     It is quite simple to convert back and forth between using 1d coordinate and 2d coordinate inside of the list (below) but it is easier to iterate through all of the items.

@@ -37,6 +37,9 @@ def DrawBoxesAndLinesToScreen(screen, allBoxContainers, positionInfo, spacer):
     
     
 def DrawLines(screen, positionInfo, spacer):
+    """
+    Will draw the lines that separate each section.
+    """
     for xStart in positionInfo.lineSideStartX:
         pygame.draw.line(screen, (255, 0, 0), 
             (xStart + spacer / 2, positionInfo.lineStartY), 
@@ -52,6 +55,9 @@ def DrawLines(screen, positionInfo, spacer):
             
             
 def DrawCurrentPlayer(screen, currentPlayerInfo):
+    """
+    Will draw all of the info related to the player (name, and what their icon looks like)
+    """
     myfont = pygame.font.SysFont("monospace", 20)
     
     text = "Current player is " + currentPlayerInfo.name + ": "

@@ -185,6 +185,7 @@ class AIPlayerMiniMax(BasePlayer):
         multipliers = (1, -1)
         
         # These are related to how I want the highest score, and my opp wants the lowest score
+            # The reason why these do not use SemiRandomPicker is because that would introduce too much variation, and could skew the choosing by a large amount
         decisionSelectors = (max, min)
         
         
@@ -195,11 +196,12 @@ class AIPlayerMiniMax(BasePlayer):
         
         allPossiblePositions = calculations.GetAllCanBePlacedIn(allSectionBoxOwners[sectionPosition])
         
-        # This can't be in the CalculateSectionScore because, while it is similar, CalculateSectionScore only returns the score
         
         # placementOptions is a list of tuples in form (section, box, score)
         placementOptions = []
-        # Means the player can play in any spot
+        
+        # The reason why this does not use CalculateSectionScore is because CalculateSectionScore only gives the best score, not the best position
+        # Means the player can play in any spot, so will go through all sections and add their placable positions to placementOptions
         if allPossiblePositions == []:
             for sectionNum in range(9):
                 allPossiblePositions = calculations.GetAllCanBePlacedIn(allSectionBoxOwners[sectionNum])
@@ -210,15 +212,17 @@ class AIPlayerMiniMax(BasePlayer):
                     
                     
                     placementOptions.append((sectionNum, position, score))
-                
+                    
+        # Means the player can only play in the current section (sectionPosition)
         else:
-            
             for position in allPossiblePositions:
                 score = self.CalculateBoxScore(allSectionOwners, allSectionBoxOwners, sectionPosition, position, currentPlayer, ids, multipliers, decisionSelectors, 0, 0)
                 
                 
                 placementOptions.append((sectionPosition, position, score))
-            
+        
+        
+        # The choosing method for here can be changed
         if self.takeBest:
             choice = max(placementOptions, key=lambda item:item[2])
         else:
@@ -242,6 +246,7 @@ class AIPlayerMiniMax(BasePlayer):
         score = calculations.CalculateBoxScore(allSectionOwners, sectionPosition, allSectionBoxOwners[sectionPosition], boxPosition, ids[currentPlayer], ids[1
  - currentPlayer], multipliers[currentPlayer], aboveScore, self.boxScoring)
         
+        # Just to print out some information, shouldn't be enabled with an absoluteMaxDepth above 1, maybe 2
         #print("Section %d box %d, score of %d (above of %d) and multiplier of %d" % (sectionPosition, boxPosition, score, aboveScore, multipliers[currentPlayer]))
         
         if depth >= self.maxDepth:

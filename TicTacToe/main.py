@@ -62,6 +62,9 @@ def Main(screen, screenSize):
             
             
 def RunGame(screen, screenSize, decision):
+    """
+    Will set up the game, including creating the players based on number of human players
+    """
     playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
     
     # This is for testing how well the ai can do when maximizing and not maximizing it's score
@@ -84,7 +87,7 @@ def RunGame(screen, screenSize, decision):
                 
 def ShowWinScreen(screen, screenSize, winner):
     """
-    screen should already have the background set up
+    Will draw the winner info on the screen, which already has the final game state drawn.
     """
     myfont = pygame.font.SysFont("monospace", 30)
     
