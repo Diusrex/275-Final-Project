@@ -24,7 +24,9 @@ import game
 
 
 def Main(screen, screenSize):
-    
+    """
+    Is the starting point of this game. Is the only function that should be called by outside programs to start this program.
+    """
     highScores = scoreFunctions.LoadHighScores(scorefilePath)
 
     tryingToExit = False

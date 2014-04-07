@@ -24,11 +24,12 @@ from drawFunctions import WriteText, DisplayHighScores
 class Game:
     """
     Will handle all of the game's logic.
-    Only part it will not handle is displaying the loss screen
+    Only part it will not handle is displaying the loss screen (which is handled in scoreFunctions
     """
+    
     def __init__(self, screenSize, boxSize):
         """
-        Initializes the size of the game. Does not set up any of the game logic though
+        Initializes the size of the game. Does not set up any of the game logic.
         """
         self.boxSize = boxSize
         self.totalSize = screenSize
@@ -53,6 +54,9 @@ class Game:
         
         
     def SetUpNewGame(self):
+        """
+        Must be called before calling RunUntilLoss(), otherwise the program will fail
+        """
         self.lost = False
         self.numberBoxesX = self.middleSize[0] // self.boxSize
         self.numberBoxesY = self.middleSize[1] // self.boxSize
@@ -66,7 +70,7 @@ class Game:
             # Remember that the spawnPos is immediately decreased by 1
         self.spawnPos = Coordinate(self.numberBoxesX // 2, self.numberBoxesY - 1)
         
-        print(self.spawnPos)
+        
         # If there is no block in position, will be None. Otherwise, will be the image corresponding to the block that is in that position
         # Is [x][y]
         self.placedGrid = [[None for y in range(self.numberBoxesY)] for x in range(self.numberBoxesX)]
@@ -81,9 +85,9 @@ class Game:
     
     def SetUpUsedBlock(self, newBlock):
         """
-        Will create the usedBlock from the given new block. Will also check to see if the used block could be created by call Update() on it, and will return the value of Update.
+        Will set the usedBlock from the given new block. Will also check to see if the used block could be created by call Update() on it, and will return the value of Update.
         
-        Will normally be transferred from by upNextBlock
+        newBLock will normally be transferred from by upNextBlock.
         """
         self.usedBlock = newBlock
         return self.usedBlock.Update(self.placedGrid)
@@ -94,7 +98,7 @@ class Game:
     
     def CreateNewNextBox(self):
         """
-        Will create a new Block for upNextBLock, using the spawn pos for it
+        Will create a new Block for upNextBLock, using the spawn pos for it.
         """
         self.upNextBlock = block.Block(self.upNextBlockPos, self.boxSize)
         
@@ -105,7 +109,8 @@ class Game:
     def RunUntilLoss(self, screen, highScores):
         """
         Will run the game until the user looses.
-        Will return the user's score
+        Will return the user's score when they do lose.
+        If the player wants to exit, will instead return None
         """
         redraw = True
     
@@ -155,6 +160,7 @@ class Game:
             
             keysPressed = pygame.key.get_pressed()
             
+            # If shift is pressed, the block will move down 4 times as fast
             if timePassed >= self.timeToShift or \
                 ((keysPressed[pygame.K_LSHIFT] or keysPressed[pygame.K_RSHIFT]) and timePassed >= self.timeToShift / 4):
                 ableToMove = self.usedBlock.Update(self.placedGrid)
@@ -183,7 +189,7 @@ class Game:
                 
                 redraw = False
         
-        print("Returning score")
+        
         # Return the score
         return self.score
         
@@ -216,7 +222,7 @@ class Game:
     
     def RemoveCompletedRows(self):
         """
-        This will remove all completed rows, and give the user a score, with a score multiplier for combos
+        This will remove all completed rows, and increase the users score (if they had any completed rows), with a score multiplier for combos
         """
         count = 0
         # Go through each of the rows. Easiest to go from top to bottom
@@ -251,7 +257,8 @@ class Game:
     
     def DrawUpNextBox(self, screen):
         """
-        Will also draw some infomation for the user
+        Will draw the up next box, which is outside of the game area, and thus has an offset of rightOffset
+        Will also draw some infomation for the user above the block
         """
         myfont = pygame.font.SysFont("monospace", 20)
         
@@ -267,9 +274,9 @@ class Game:
         
     def DrawGrid(self, screen):
         """
-        Will draw the grid
+        Will draw the grid.
         This includes both the boxes in the placedGrid, and the lines separating each box.
-        The lines will be gray
+        The lines will be gray.
         """
         # Draw the boxes
         for boxXPos in range(self.numberBoxesX):

@@ -25,19 +25,20 @@ def WriteText(screen, screenSize, font, text, posY, center):
     
 def DisplayHighScores(screen, allocatedSize, posY, highScores, fontSize):
     """
-    Will display all of the high scores, and will return the final posY
+    Will display all of the high scores, and will return the final posY below the text.
     """
     myfont = pygame.font.SysFont("monospace", fontSize)
     
     posY = WriteText(screen, allocatedSize, myfont, "High Scores:", posY, True)
     
-    pos = 1
+    place = 1
     for score in highScores:
         # No point in continuing to draw
         if score[0] == "":
             break
                 
-        output = "%d: %s %7s" % (pos, score[0], score[1])
+        output = "%d: %s %7d" % (place, score[0], score[1])
         posY = WriteText(screen, allocatedSize, myfont, output, posY, True)
-        pos += 1
+        place += 1
+        
     return posY   

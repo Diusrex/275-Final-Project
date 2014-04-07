@@ -18,7 +18,8 @@ class Block:
     All coordinates are based on the grid, which is based on the size of each block
     """
     
-    # Note: The 0, 0 position should be within one block of the top of the object
+    # Note: The 0, 0 position should be within one block of the top of the object, to make sure that the block can be spawned properly
+        # The 0, 0, position should also be as close to the center of the block, to avoid weird rotations
     
     shapes = ([Coordinate(0, 1), Coordinate(0, 0), Coordinate(0, -1), Coordinate(0, -2)], # straight line
               [Coordinate(0, 0), Coordinate(1, 0), Coordinate(0, -1), Coordinate(1, -1)], # box
@@ -28,7 +29,7 @@ class Block:
               [Coordinate(0, 0), Coordinate(-1, 0), Coordinate(1, 0), Coordinate(1, 1)], # 'J'
               [Coordinate(-1, 0), Coordinate(0, 0), Coordinate(1, 0), Coordinate(0, -1)]) #'T'
               
-    # Only the box at [1] is not able to be rotated      
+    # Only the box at position 1 is not able to be rotated      
     ableToRotate = (True, False, True, True, True, True, True)
     
     # Colors: White, red, blue, green, yellow, cyan
@@ -43,10 +44,11 @@ class Block:
         
         shapeToUsed = random.randrange(len(Block.shapes))
         
-        # To ensure that the shape of this object does not effect the original shape
+        # To ensure that the shape of this object does not effect the original shape, creates a copy of each coordinate
         self.shape = []
-        for block in Block.shapes[shapeToUsed]:
-            self.shape.append(block.Copy())
+        for blockCoordinate in Block.shapes[shapeToUsed]:
+            self.shape.append(blockCoordinate.Copy())
+            
         self.rotatable = Block.ableToRotate[shapeToUsed]
         
         
@@ -58,6 +60,9 @@ class Block:
         
         
     def SetPosition(self, newPos):
+        """
+        Will set this objects position to a copy of the given coordinate
+        """
         self.position = newPos.Copy()
     
     
@@ -65,7 +70,7 @@ class Block:
     
     def MoveHorizontal(self, grid, move):
         """
-        Will check to see if the block can be moved the requested number of units horizontally. If it can will return True, otherwise will return False
+        Will check to see if the block can be moved the requested number of units horizontally. If it can will move the block and return True, otherwise will return False
         """
         xPos = self.position.x
         yPos = self.position.y
@@ -77,6 +82,7 @@ class Block:
             # Means there is a block where it will be moving to
             elif grid[xPos + block.x + move][yPos + block.y]:
                 return False
+                
         self.position.x += move
         return True
         
@@ -88,10 +94,9 @@ class Block:
         """
         How rotation will be handled:
         1. Will rotate in the direction wanted around the centre position
-        2. Will then horizontally to ensure that this object doesn't interfere with any other objects.
-        3. If the second step was not possible, then will not rotate
+        2. If any of the blocks then interact with a placed block, then will not change the object
         
-        EDIT: For now, will not use step 2
+        Having the block automatically shift over if it intersecs with another block would be nice, but isn't needed
         """
         # Some shapes should not rotate
         if not self.rotatable:
@@ -120,7 +125,7 @@ class Block:
         """
         This should only be called every time the block is to descend one step
         
-        The block cannot go below 1, because then it will be beyond the screen
+        The block cannot go below 1, because then it will be beyond the screen. (Just because of how the drawing is handled)
         Will return true if it was able to move down
         """
         xPos = self.position.x

@@ -14,17 +14,18 @@ maxNumScores = 10
 maxNameSize = 10
 
 
-
+# For the highscores, there may be spaces in the name. Everything other than the last item (which will be the score) in a line will be interpreted as part of the name
 
 def LoadHighScores(fileName):
     """
     Will load up to maxNumScores highScores. 
     
     Even if there are less than this number, or if the file does not exist, will return a list of tuples with size maxNumScores
-        If an entry is just a filler, its [0] will be ""
+        If an entry is just a filler, its will be ["", 0]
     """
     highScores = [("", 0) for x in range(maxNumScores)]
-
+    
+    # Ensure that the file exists before doing anything with it
     if os.path.isfile(fileName):
         with open(fileName, 'r') as theFile:
             pos = 0
@@ -47,6 +48,10 @@ def LoadHighScores(fileName):
     
     
 def UpdateHighScores(screen, screenSize, score, highScores, fileName):
+    """
+    Will determine if the player earned a new high score. If they did, will prompt them to input their name (using GetHighScoreInput).
+        Will then shift all of the scores after the changed score up one
+    """
     different = False
     for pos in range(len(highScores)):
         if highScores[pos][1] < score:
@@ -77,10 +82,15 @@ def UpdateHighScores(screen, screenSize, score, highScores, fileName):
 
        
 def GetHighScoreInput(screen, screenSize, score, pos):
+    """
+    Will allow the user to enter their name (which has a size limited by maxNameSize to make the scores print better
+    
+    Note: This function does not allow the user to quit.
+    """
     redraw = True
     finished = False
     
-    # Because position for output is not 0 indexed
+    # Because position for output is not 0 indexed (makes it easier to output)
     pos = pos + 1
     
     name = ""
@@ -132,7 +142,8 @@ def GetHighScoreInput(screen, screenSize, score, pos):
     
 def ShowScoreScreen(screen, screenSize, score, highScores):
     """
-    Will overwrite the screen createdy by the game
+    Will display all of the top scores, after they have been updated with the most recent score, and the users score.
+    Note: Will not allow the user to quit.
     """
     
     # clear all of the events
@@ -152,7 +163,7 @@ def ShowScoreScreen(screen, screenSize, score, highScores):
     
     myfont = pygame.font.SysFont("monospace", 15)
     
-    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press any button to return to the main menu", posY, True)
+    posY = drawFunctions.WriteText(screen, screenSize, myfont, "Press enter/return to go to the main menu", posY, True)
     
     drawFunctions.DisplayHighScores(screen, screenSize, posY + 15, highScores, 15)
     
@@ -162,5 +173,5 @@ def ShowScoreScreen(screen, screenSize, score, highScores):
         ev = pygame.event.get()
 
         for event in ev:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
