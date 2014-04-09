@@ -66,7 +66,7 @@ def RunGame(screen, screenSize):
     if xNegative == 1:
         xSpeed *= -1
         
-    ySpeed = math.sqrt(6400 - xSpeed ** 2)
+    ySpeed = math.sqrt(12800 - xSpeed ** 2)
     yNegative = random.randint(0, 1)
     if yNegative == 1:
         ySpeed *= -1
