@@ -1,15 +1,18 @@
-
 import pygame
 from pygame.locals import *
 import random
 
 
+
 # These are the imports for when running from base menu
-from tile import Tile
+from MineSweeper.tile import Tile
+
+
+
 
 """
 # Use these imports when just want to run this game
-from MineSweeper.tile import Tile
+from tile import Tile
 
 """
 
