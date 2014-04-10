@@ -1,0 +1,24 @@
+Some results of me playing against the AI (and testing it). Was mostly curious how the positive would perform
+
+The players will be listed in the order that they will play (Me vs positive means I'm the first player, positive is the second player)
+
+The player positive is the AI that used SemiRandomPicker to decide its current move (based on score), rather than max
+The player best is the AI that uses max to decide its current move (based on score), rather than SemiRandomPicker
+
+Me vs positive:
+    me: 1
+    positive: 7
+    tie: 2
+    
+Pick from positive vs pick best:
+    positive: 5
+    best: 8
+    ties: 1
+
+best vs best:
+    first player only wins (same calculations every time)
+
+best vs positive:
+    best: 2
+    positive: 2
+    ties: 1
