@@ -1,17 +1,17 @@
-"""
+
 import pygame
 from pygame.locals import *
+import random
+
+
+# These are the imports for when running from base menu
 from tile import Tile
-import random
+
 """
-
-import pygame
-from pygame.locals import *
+# Use these imports when just want to run this game
 from MineSweeper.tile import Tile
-import random
 
-# Whenever storing 2d data in a 1d array, stores as y * 3 + x
-    # So x = pos % 3, y = pos // 3
+"""
 
     
 def Main(screen, size):

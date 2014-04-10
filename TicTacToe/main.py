@@ -26,7 +26,7 @@ mport calculationsScoring
 """
 
 
-# Whenever storing 2d data in a 1d array, stores as y * 3 + x
+# Whenever storing 2d data in a 1d list, stores as y * 3 + x
     # So x = pos % 3, y = pos // 3
     # This is for this game only
 
