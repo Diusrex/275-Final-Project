@@ -1,6 +1,6 @@
 The game consists of a large Tic Tac Toe board which will consist of 9 mini Tic Tac Toe boards. The mini Tic Tac Toe boards will be referred to as 'sections', while the spots inside of a mini Tic Tac Toe board will be called a box.
     This naming is also used within the code
-    
+
 The Game:
     (There is also a description with pictures inside of the game itself)
     
@@ -17,7 +17,11 @@ The Game:
 AI descripion:
     The ai is based on minimax. This means that, when choosing its next move, it assumes that the other player will minimize the score of this ai, and it will attempt to maximize its score. When determining score, any score the other player may accrue is negative (because their score will hurt this bots score), and any score this player may gain is positive.
         My solution varies from minimax though, because as it recurses down the moves, the score from nodes (boxes and sections) that were traversed from above will be added to the score of the current node. This means that when a node returns its score (due to reaching maxDepth), that score will not be altered (although it may be ignored due to there being better scores for the nearest section).
-        
+    
+    There are two configurations for the AI: max and semirandom (often refered to as best). The only difference is when all of the scores for future moves have been calculated, and the AI has to choose from among its currently possible moves (one of which it will return as its move), the max AI (which has setBest best be true), will pick the move with the higest score. A semirandom ai will pick from among the positive values, randomly with the ones with a higher score being more likely (as described in the comments for the function SemiRandomPicker).
+        The default ai uses SemiRandomPicker.
+    
+    
     The reason why the maxDepth (which determines how many moves the player will look forward) is relatively low, is because the first depth checks upto 9 positions, the second checks up to 81 distinct positions, and the third checks up to 729 distinct positions. These are distinct becuase what was played before these spots were chosen will be different. So the complexity is roughly 9^maxDepth.
         However, over time, the maxDepth is increased because there will simply not be that many possible moves, because the 
     
@@ -34,6 +38,7 @@ AI descripion:
 
     I have included a file call Results.txt in this directory that lists some of my results against the AI.
     
+    If you wish to have two AI's play each other, within main.RunGame, there is a commented out line for creating playerOne as an AIPlayer. Just need to uncomment that line, and run the game in single player mode. Without changing either line, the first player will be the 'best' type ai, and the second player will be of the 'semirandom; type.
     
 AI Improvements:
     One of the biggest improvements that could likely be used on the ai is improving the values of numbers used within calculations.CalculateBoxScore and calculations.CalculateSectionScore:

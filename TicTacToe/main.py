@@ -65,6 +65,7 @@ def RunGame(screen, screenSize, decision):
     """
     Will set up the game, including creating the players based on number of human players
     """
+    # This is for running the game normally.
     playerOne = player.HumanPlayer("Player one", 1, pygame.image.load('Assets/xPressed.png'))
     
     # This is for testing how well the ai can do when maximizing and not maximizing it's score
