@@ -22,7 +22,7 @@ import drawFunctions
 
 import player
 
-mport calculationsScoring
+import calculationsScoring
 """
 
 
@@ -143,5 +143,5 @@ if __name__ == "__main__":
     pygame.init()
     screenSize = (1024, 650)
     screen = pygame.display.set_mode(screenSize)
-    main(screen, screenSize)
+    Main(screen, screenSize)
     

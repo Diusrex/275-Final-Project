@@ -242,6 +242,6 @@ if __name__ == "__main__":
     pygame.init()
     size = (1024, 768)
     screen = pygame.display.set_mode(size)
-    main(screen, size)
+    Main(screen, size)
     
     

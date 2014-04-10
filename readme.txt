@@ -12,6 +12,8 @@ Changing the screenSize:
         Many of the drawing functions are designed to be able to handle a different size, but some of them are not.
         If the screen's size is decreased by too much, there is a chance that parts of the program will be drawn outside of the screen (mostly for menus and such), or text will be drawn on other objects (mostly in the games themselves)
 
+To exit out of all of the games, press escape or hit the exit button.
+
 To run the complete program, run the file main.py in this directory with ipython3 (or however you run using pygame)
     The reason why all of the subdirectories use import directory.x as x is to make it eaiser to convert to running the game individually
     
