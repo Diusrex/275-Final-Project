@@ -1,6 +1,6 @@
-Morgan Redshaw and Alex Sampley
+Morgan Redshaw
     
-The origional goal of this project was to create 4 minigames, but that goal was later deemed to not be technical enough, so instead I have created an AI for Novem Tic Tac Toe and have left in the three other games we created (Minesweeper, Pong and Tetris).
+The origional goal of this project was to create 4 minigames, but that goal was later deemed to not be technical enough, so instead I have created an AI for Novem Tic Tac Toe and have left in the two other games I created (ong and Tetris).
     All of the games are working, but they are not meant to be pretty
 
 Most of the games have their own readme file, which will contain information related to that game only.
