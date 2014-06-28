@@ -6,7 +6,6 @@ import menu
 import Pong.main
 import Tetris.main
 import TicTacToe.main
-import MineSweeper.main
     
 def main(screen, screenSize):
     tryingToExit = False
@@ -24,9 +23,6 @@ def main(screen, screenSize):
             
         elif decision == menu.ticTacToeText:
             TicTacToe.main.Main(screen, screenSize)
-
-        elif decision == menu.mineSweeperText:
-            MineSweeper.main.Main(screen, screenSize)
             
         else:
             tryingToExit = True
